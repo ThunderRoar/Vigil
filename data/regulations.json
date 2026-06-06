@@ -1,0 +1,140 @@
+[
+  {
+    "regulation_id": "REG-BSA-SAR-001",
+    "title": "Bank Secrecy Act - Suspicious Activity Reporting (SAR)",
+    "body": "Financial institutions must file a Suspicious Activity Report with FinCEN when they detect a transaction involving at least 5,000 US dollars that they know, suspect, or have reason to suspect involves funds from illegal activity, is structured to evade reporting requirements, has no apparent lawful purpose, or is otherwise unusual for the customer. SARs must be filed within 30 days of detection and the institution must not disclose the filing to the customer.",
+    "jurisdiction": "US",
+    "authority": "FinCEN",
+    "effective_date": "2024-01-01",
+    "last_updated": "2025-06-15",
+    "categories": [
+      "AML",
+      "SAR",
+      "reporting"
+    ]
+  },
+  {
+    "regulation_id": "REG-CTR-002",
+    "title": "Currency Transaction Reporting - $10,000 Threshold",
+    "body": "A Currency Transaction Report must be filed for any cash transaction, or series of related cash transactions in a single business day, that exceeds 10,000 US dollars. Attempting to break a large amount into smaller transactions to stay under this threshold is called structuring and is itself a federal crime.",
+    "jurisdiction": "US",
+    "authority": "FinCEN",
+    "effective_date": "2024-01-01",
+    "last_updated": "2025-03-10",
+    "categories": [
+      "AML",
+      "CTR",
+      "reporting",
+      "structuring"
+    ]
+  },
+  {
+    "regulation_id": "REG-KYC-CDD-003",
+    "title": "Customer Due Diligence and Know Your Customer",
+    "body": "Institutions must verify customer identity at onboarding, understand the nature and purpose of the relationship, and maintain accurate records. Accounts with incomplete documentation must not be permitted to transact until verification is complete. Customer information must be kept current through periodic review.",
+    "jurisdiction": "US",
+    "authority": "FinCEN",
+    "effective_date": "2024-05-11",
+    "last_updated": "2025-01-20",
+    "categories": [
+      "KYC",
+      "CDD",
+      "onboarding"
+    ]
+  },
+  {
+    "regulation_id": "REG-EDD-PEP-004",
+    "title": "Enhanced Due Diligence for High-Risk Customers and PEPs",
+    "body": "Politically Exposed Persons, customers in high-risk jurisdictions, and entities with complex ownership require Enhanced Due Diligence. This includes establishing source of funds and source of wealth, senior management approval, and more frequent ongoing monitoring of the relationship.",
+    "jurisdiction": "US",
+    "authority": "FFIEC",
+    "effective_date": "2024-01-01",
+    "last_updated": "2025-02-28",
+    "categories": [
+      "EDD",
+      "PEP",
+      "high_risk"
+    ]
+  },
+  {
+    "regulation_id": "REG-CROSSBORDER-005",
+    "title": "Cross-Border Funds Transfer Scrutiny",
+    "body": "Cross-border wire transfers, particularly to jurisdictions identified as higher risk for money laundering, warrant heightened scrutiny. Institutions should assess whether the transfer is consistent with the customer's known business, and rapid sequences of cross-border transfers may indicate layering.",
+    "jurisdiction": "US",
+    "authority": "FinCEN",
+    "effective_date": "2024-01-01",
+    "last_updated": "2025-05-01",
+    "categories": [
+      "AML",
+      "cross_border",
+      "wire_transfer"
+    ]
+  },
+  {
+    "regulation_id": "REG-OFAC-006",
+    "title": "OFAC Sanctions Screening",
+    "body": "All transactions must be screened against the Office of Foreign Assets Control sanctions lists. A confirmed match requires blocking the transaction and reporting it to OFAC. Processing a transaction for a sanctioned party exposes the institution to severe civil and criminal penalties.",
+    "jurisdiction": "US",
+    "authority": "OFAC",
+    "effective_date": "2024-01-01",
+    "last_updated": "2025-04-12",
+    "categories": [
+      "sanctions",
+      "screening"
+    ]
+  },
+  {
+    "regulation_id": "REG-STRUCTURING-007",
+    "title": "Structuring and Smurfing Detection",
+    "body": "Structuring is the act of arranging transactions to avoid triggering reporting thresholds. Patterns such as many sub-threshold deposits, or a high velocity of transactions just under reporting limits, are red flags that should be investigated and may require a SAR filing regardless of individual amounts.",
+    "jurisdiction": "US",
+    "authority": "FinCEN",
+    "effective_date": "2024-01-01",
+    "last_updated": "2025-06-01",
+    "categories": [
+      "AML",
+      "structuring",
+      "SAR"
+    ]
+  },
+  {
+    "regulation_id": "REG-BENEFICIAL-008",
+    "title": "Beneficial Ownership Identification",
+    "body": "Institutions must identify and verify the natural persons who own 25 percent or more of a legal entity customer, and at least one person who controls it. Opaque ownership structures and the use of shell companies are recognized money laundering typologies that require additional scrutiny.",
+    "jurisdiction": "US",
+    "authority": "FinCEN",
+    "effective_date": "2024-05-11",
+    "last_updated": "2025-01-20",
+    "categories": [
+      "CDD",
+      "beneficial_ownership"
+    ]
+  },
+  {
+    "regulation_id": "REG-TRAVEL-009",
+    "title": "Funds Transfer Recordkeeping (Travel Rule)",
+    "body": "For transmittals of funds of 3,000 US dollars or more, institutions must obtain and retain originator and beneficiary information and pass it to the next financial institution in the payment chain. These records support law enforcement tracing of illicit funds.",
+    "jurisdiction": "US",
+    "authority": "FinCEN",
+    "effective_date": "2024-01-01",
+    "last_updated": "2024-12-15",
+    "categories": [
+      "recordkeeping",
+      "travel_rule",
+      "wire_transfer"
+    ]
+  },
+  {
+    "regulation_id": "REG-MONITORING-010",
+    "title": "Ongoing Transaction Monitoring",
+    "body": "Institutions must maintain risk-based systems to monitor customer transactions for unusual or suspicious activity on an ongoing basis. Detected anomalies such as sudden changes in volume, velocity, or counterparties should trigger review and, where warranted, escalation and reporting.",
+    "jurisdiction": "US",
+    "authority": "FFIEC",
+    "effective_date": "2024-01-01",
+    "last_updated": "2025-05-30",
+    "categories": [
+      "AML",
+      "monitoring"
+    ]
+  }
+]

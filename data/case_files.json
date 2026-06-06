@@ -1,0 +1,47 @@
+[
+  {
+    "case_id": "CASE-2026-0007",
+    "created_at": "2026-03-18T09:30:00Z",
+    "created_by": "vigil-agent",
+    "subject": "Pacific Import Export - Round-number cash deposits",
+    "summary": "Investigation into ACC-7702 for a series of round-number deposits just below the 10,000 dollar reporting threshold over a two-week period. Pattern is consistent with possible structuring. Enhanced monitoring applied.",
+    "entities_involved": [
+      "ACC-7702",
+      "Pacific Import Export"
+    ],
+    "risk_level": "high",
+    "status": "open",
+    "findings": [
+      "Multiple deposits between 9,200 and 9,800 dollars",
+      "Deposits across several branches in short window",
+      "Possible structuring to evade CTR threshold"
+    ],
+    "recommended_actions": [
+      "Enhanced monitoring on ACC-7702",
+      "Consider SAR if pattern continues"
+    ],
+    "related_cases": []
+  },
+  {
+    "case_id": "CASE-2026-0011",
+    "created_at": "2026-04-02T14:05:00Z",
+    "created_by": "vigil-agent",
+    "subject": "Summit Ventures Ltd - Resolved false positive",
+    "summary": "Velocity alert on ACC-3300 reviewed and cleared. Spike corresponded to a documented, legitimate quarterly supplier settlement. No further action.",
+    "entities_involved": [
+      "ACC-3300",
+      "Summit Ventures Ltd"
+    ],
+    "risk_level": "low",
+    "status": "resolved",
+    "findings": [
+      "Velocity spike explained by quarterly supplier payments",
+      "Supporting invoices on file"
+    ],
+    "recommended_actions": [
+      "Close alert",
+      "No SAR required"
+    ],
+    "related_cases": []
+  }
+]
