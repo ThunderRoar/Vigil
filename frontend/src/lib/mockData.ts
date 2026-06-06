@@ -157,29 +157,6 @@ export const mockRegulations: Regulation[] = [
 
 export const mockCaseFiles: CaseFile[] = [
   {
-    case_id: "CASE-2026-0042",
-    created_at: "2026-06-03T16:20:00Z",
-    created_by: "vigil-agent",
-    subject: "Meridian Capital Group - Unusual transaction velocity",
-    summary:
-      "14 wire transfers totaling $287,500 within a 3-hour window on 2026-05-15, with a repeat burst on 2026-06-03. Counterparty is an offshore entity in Cyprus; customer KYC is incomplete and risk score is 78/100. Likely meets BSA threshold for SAR consideration.",
-    entities_involved: ["ACC-8891", "Meridian Capital Group", "Aurora Holdings Ltd"],
-    risk_level: "critical",
-    status: "open",
-    findings: [
-      "14 transactions in a 3-hour window (velocity anomaly)",
-      "Total $287,500 exceeds SAR threshold",
-      "Counterparty KYC documents incomplete",
-      "Cross-border transfers to high-risk jurisdiction (Cyprus)",
-    ],
-    recommended_actions: [
-      "File SAR with FinCEN",
-      "Request updated KYC documents",
-      "Place enhanced monitoring on ACC-8891",
-    ],
-    related_cases: [],
-  },
-  {
     case_id: "CASE-2026-0007",
     created_at: "2026-03-18T09:30:00Z",
     created_by: "vigil-agent",

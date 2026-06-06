@@ -1,12 +1,20 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Send, Loader2, Check, Sparkles } from "lucide-react";
+import { Send, Loader2, Check, Sparkles, Save } from "lucide-react";
 import { mockKyc, mockTransactions, mockRegulations } from "@/lib/mockData";
 import type { InvestigationContext } from "@/components/ContextPanel";
+import type { CaseFile } from "@/lib/types";
 
 type ToolCall = { label: string; done: boolean };
-type Msg = { id: string; role: "user" | "agent"; content: string; tools?: ToolCall[] };
+type Msg = { 
+  id: string;
+  role: "user" | "agent";
+  content: string;
+  tools?: ToolCall[];
+  offerSave?: boolean;
+  saved?: boolean;
+};
 
 const meridianKyc = mockKyc.find((k) => k.account_id === "ACC-8891")!;
 const meridianTxns = mockTransactions.filter(
@@ -33,12 +41,38 @@ Recommendation: escalate for SAR filing, request updated KYC documents, and plac
 
 Would you like me to save a case file?`;
 
-
 const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
+function buildCaseFile(): CaseFile {
+  return {
+    case_id: `CASE-2026-${String(Date.now()).slice(-4)}`,
+    created_at: new Date().toISOString(),
+    created_by: "vigil-agent",
+    subject: "Meridian Capital Group - Unusual transaction velocity",
+    summary:
+      "26 wires totaling $532,500 in two bursts (May 15, Jun 3) to Aurora Holdings Ltd (Cyprus). KYC incomplete, risk 78/100. Likely meets BSA threshold for SAR.",
+    entities_involved: ["ACC-8891", "Meridian Capital Group", "Aurora Holdings Ltd"],
+    risk_level: "critical",
+    status: "open",
+    findings: [
+      "26 wires in two tight bursts (velocity anomaly)",
+      "Cross-border transfers to high-risk jurisdiction (Cyprus)",
+      "KYC documentation incomplete",
+      "Total exceeds SAR threshold"
+    ],
+    recommended_actions: [
+      "File SAR with FinCEN",
+      "Request updated KYC documents",
+      "Enhanced monitoring on ACC-8891",
+    ],
+    related_cases: []
+  };
+}
 
-export function ChatPanel({ onContext, onResetContext }: {
+
+export function ChatPanel({ onContext, onResetContext, onSaveCase }: {
   onContext: (patch: InvestigationContext) => void;
   onResetContext: () => void;
+  onSaveCase: (c: CaseFile) => void;
 }) {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
@@ -87,7 +121,11 @@ export function ChatPanel({ onContext, onResetContext }: {
     }
 
     await delay(400);
-    setMessages((m) => m.map((msg) => (msg.id === agentId ? { ...msg, content: ANSWER } : msg)));
+    setMessages((m) =>
+      m.map((msg) =>
+        msg.id === agentId ? { ...msg, content: ANSWER, offerSave: true } : msg
+      )
+    );
     setBusy(false);
   }
 
@@ -140,6 +178,32 @@ export function ChatPanel({ onContext, onResetContext }: {
                   <div className="whitespace-pre-line rounded-2xl rounded-bl-sm border border-border bg-surface px-4 py-3 text-sm leading-relaxed text-foreground">
                     {msg.content}
                   </div>
+                )}
+                {msg.offerSave && (
+                  <button
+                    onClick={() => {
+                      onSaveCase(buildCaseFile());
+                      setMessages((m) =>
+                        m.map((x) => (x.id === msg.id ? { ...x, saved: true } : x))
+                      );
+                    }}
+                    disabled={msg.saved}
+                    className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                      msg.saved
+                        ? "border border-success text-success"
+                        : "bg-primary text-white hover:opacity-90"
+                    }`}
+                  >
+                    {msg.saved ? (
+                      <>
+                        <Check className="h-4 w-4" /> Case file saved
+                      </>
+                    ) : (
+                      <>
+                        <Save className="h-4 w-4" /> Save case file
+                      </>
+                    )}
+                  </button>
                 )}
               </div>
             </div>
