@@ -5,6 +5,7 @@ import { Send, Loader2, Check, Sparkles, Save } from "lucide-react";
 import { mockKyc, mockTransactions, mockRegulations } from "@/lib/mockData";
 import type { InvestigationContext } from "@/components/ContextPanel";
 import type { CaseFile } from "@/lib/types";
+import { Markdown } from "@/components/Markdown";
 
 type ToolCall = { label: string; done: boolean };
 type Msg = { 
@@ -30,14 +31,14 @@ const STEPS: { label: string; patch?: InvestigationContext }[] = [
   { label: "Searching regulations (SAR, cross-border)", patch: { regulation: sarReg } },
   { label: "Searching past case files" },
 ];
-const ANSWER = `I investigated Meridian Capital Group (ACC-8891) and found serious red flags:
+const ANSWER = `I investigated **Meridian Capital Group** (\`ACC-8891\`) and found serious red flags:
 
-• Velocity anomaly: 26 wires in two tight bursts (14 on May 15, 12 on Jun 3), totaling $532,500 to Aurora Holdings Ltd (Cyprus).
-• KYC: risk score 78/100, documentation INCOMPLETE.
-• Cross-border transfers to a high-risk jurisdiction.
-• Under the Bank Secrecy Act, this likely meets the threshold for a SAR filing.
+- **Velocity anomaly:** 26 wires in two tight bursts (14 on May 15, 12 on Jun 3), totaling **$532,500** to Aurora Holdings Ltd (Cyprus).
+- **KYC:** risk score **78/100**, documentation **incomplete**.
+- **Cross-border** transfers to a high-risk jurisdiction.
+- Under the **Bank Secrecy Act**, this likely meets the threshold for a **SAR filing**.
 
-Recommendation: escalate for SAR filing, request updated KYC documents, and place enhanced monitoring on ACC-8891.
+**Recommendation:** escalate for SAR filing, request updated KYC documents, and place enhanced monitoring on \`ACC-8891\`.
 
 Would you like me to save a case file?`;
 
@@ -133,15 +134,20 @@ export function ChatPanel({ onContext, onResetContext, onSaveCase }: {
     <div className="flex h-full flex-col">
       {/* message thread */}
       <div className="flex-1 space-y-4 overflow-y-auto p-4">
-        {messages.length === 0 && (
-          <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
-            <Sparkles className="h-8 w-8 text-primary" />
-            <p className="text-sm text-muted">
-              Ask Vigil to investigate an entity or pattern.
-            </p>
+      {messages.length === 0 && (
+          <div className="fade-in-up flex h-full flex-col items-center justify-center gap-3 px-6 text-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
+              <Sparkles className="h-6 w-6 text-primary" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-foreground">Start an investigation</p>
+              <p className="mt-1 text-sm text-muted">
+                Ask Vigil about an entity, account, or pattern.
+              </p>
+            </div>
             <button
               onClick={() => send(PROMPT)}
-              className="rounded-full border border-border px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-surface-2"
+              className="rounded-full border border-border px-3 py-1.5 text-sm text-foreground transition-colors hover:border-primary hover:text-primary"
             >
               {PROMPT}
             </button>
@@ -150,19 +156,19 @@ export function ChatPanel({ onContext, onResetContext, onSaveCase }: {
 
         {messages.map((msg) =>
           msg.role === "user" ? (
-            <div key={msg.id} className="flex justify-end">
+            <div key={msg.id} className="flex justify-end fade-in-up">
               <div className="max-w-[80%] rounded-2xl rounded-br-sm bg-primary px-4 py-2 text-sm text-white">
                 {msg.content}
               </div>
             </div>
           ) : (
-            <div key={msg.id} className="flex justify-start">
+            <div key={msg.id} className="flex justify-start fade-in-up">
               <div className="max-w-[85%] space-y-2">
                 {/* tool call indicators */}
                 {msg.tools && msg.tools.length > 0 && (
                   <div className="space-y-1">
                     {msg.tools.map((t, i) => (
-                      <div key={i} className="flex items-center gap-2 text-xs text-muted">
+                      <div key={i} className="flex items-center gap-2 text-xs text-muted fade-in-up">
                         {t.done ? (
                           <Check className="h-3.5 w-3.5 text-success" />
                         ) : (
@@ -175,8 +181,8 @@ export function ChatPanel({ onContext, onResetContext, onSaveCase }: {
                 )}
                 {/* final answer */}
                 {msg.content && (
-                  <div className="whitespace-pre-line rounded-2xl rounded-bl-sm border border-border bg-surface px-4 py-3 text-sm leading-relaxed text-foreground">
-                    {msg.content}
+                  <div className="rounded-2xl rounded-bl-sm border border-border bg-surface px-4 py-3 text-sm text-foreground">
+                    <Markdown>{msg.content}</Markdown>
                   </div>
                 )}
                 {msg.offerSave && (

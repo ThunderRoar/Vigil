@@ -7,10 +7,11 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
-export function CaseList({ cases, selectedId, onSelect }: {
+export function CaseList({ cases, selectedId, onSelect, highlightId }: {
   cases: CaseFile[];
   selectedId: string | null;
   onSelect: (id: string) => void;
+  highlightId?: string | null;
 }) {
   return (
     <ul className="divide-y divide-border">
@@ -22,7 +23,7 @@ export function CaseList({ cases, selectedId, onSelect }: {
               onClick={() => onSelect(c.case_id)}
               className={`flex w-full flex-col gap-1.5 border-l-2 px-4 py-3 text-left transition-colors hover:bg-surface-2 ${
                 active ? "border-primary bg-surface-2" : "border-transparent"
-              }`}
+              } ${c.case_id === highlightId ? "highlight-pulse" : ""}`}
             >
               <div className="flex items-center justify-between gap-2">
                 <span className="font-mono text-xs text-muted">{c.case_id}</span>

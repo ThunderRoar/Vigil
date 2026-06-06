@@ -29,10 +29,13 @@ export function Dashboard() {
     mockCaseFiles[0]?.case_id ?? null
   );
   const [context, setContext] = useState<InvestigationContext>({});
-
+  const [highlightId, setHighlightId] = useState<string | null>(null);
+  
   function addCase(c: CaseFile) {
     setCases((prev) => [c, ...prev]);
     setSelectedId(c.case_id);
+    setHighlightId(c.case_id);
+    setTimeout(() => setHighlightId(null), 2000);
   }
 
   return (
@@ -41,7 +44,7 @@ export function Dashboard() {
 
       <div className="flex min-h-0 flex-1">
         <Panel title="Investigations" className="w-70 shrink-0 border-r border-border-surface">
-          <CaseList cases={cases} selectedId={selectedId} onSelect={setSelectedId} />
+          <CaseList cases={cases} selectedId={selectedId} onSelect={setSelectedId} highlightId={highlightId}/>
         </Panel>
 
         <Panel title="Investigation Chat" className="min-w-0 flex-1">

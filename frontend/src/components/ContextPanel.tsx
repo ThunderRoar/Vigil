@@ -1,4 +1,5 @@
 import type { KycRecord, Transaction, Regulation, RiskLevel } from "@/lib/types";
+import { FileSearch } from "lucide-react";
 
 // Shared shape for context (UI state not index)
 export type InvestigationContext = {
@@ -30,7 +31,7 @@ function Field({ label, value, alert }: { label: string; value: string; alert?: 
 
 function KycCard({ kyc }: { kyc: KycRecord }) {
   return (
-    <div className="space-y-3 rounded-xl border border-border bg-surface p-4">
+    <div className="space-y-3 rounded-xl border border-border bg-surface p-4 fade-in-up">
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-semibold text-foreground">{kyc.customer_name}</h3>
         <span className="font-mono text-xs text-muted">{kyc.account_id}</span>
@@ -64,7 +65,7 @@ function KycCard({ kyc }: { kyc: KycRecord }) {
 function TransactionTable({ transactions }: { transactions: Transaction[] }) {
   const total = transactions.reduce((s, t) => s + t.amount, 0);
   return (
-    <div className="overflow-hidden rounded-xl border border-border bg-surface">
+    <div className="overflow-hidden rounded-xl border border-border bg-surface fade-in-up">
       <div className="flex items-center justify-between border-b border-border px-4 py-2">
         <span className="text-xs font-semibold uppercase tracking-wide text-muted">
           Transactions
@@ -99,7 +100,7 @@ function TransactionTable({ transactions }: { transactions: Transaction[] }) {
 
 function RegulationCard({ regulation }: { regulation: Regulation }) {
   return (
-    <div className="space-y-2 rounded-xl border border-border bg-surface p-4">
+    <div className="space-y-2 rounded-xl border border-border bg-surface p-4 fade-in-up">
       <div className="flex items-center justify-between">
         <span className="text-xs font-semibold text-primary">{regulation.authority}</span>
         <span className="font-mono text-xs text-muted">{regulation.regulation_id}</span>
@@ -114,8 +115,11 @@ export function ContextPanel({ context }: { context: InvestigationContext }) {
   const hasAny = context.kyc || context.transactions || context.regulation;
   if (!hasAny) {
     return (
-      <div className="flex h-full items-center justify-center p-6 text-center text-sm text-muted">
-        Run an investigation to see related KYC, transactions, and regulations here.
+      <div className="flex h-full flex-col items-center justify-center gap-3 px-6 text-center text-muted">
+        <FileSearch className="h-7 w-7 opacity-60" />
+        <p className="text-sm">
+          Run an investigation to see related KYC, transactions, and regulations here.
+        </p>
       </div>
     );
   }
