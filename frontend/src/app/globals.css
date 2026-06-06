@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+:root {
+  --background:#0a0e17; /* app backdrop */
+  --surface:#111827; /* cards */
+  --surface-2:#0d1424; /* nested cards*/
+  --border:#1e293b; /* subtle dividers */
+  --primary:#3b82f6; /* actions */
+  --danger:#ef4444; /* high risk/alerts */
+  --warning:#f59e0b; /* medium risk */
+  --success:#10b981; /* low risk/resolved */
+  --foreground:#f1f5f9; /* primary text */
+  --muted:#94a3b8; /* secondary text */
+}
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
+  --color-success: var(--success);
+  --color-foreground: (--foreground);
+  --color-muted: var(--muted);
+  --font-sans: var(--font-ibm-plex-sans);
+  --font-mono: var(--font-ibm-plex-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
