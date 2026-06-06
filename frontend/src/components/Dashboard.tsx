@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { CaseList } from "@/components/CaseList";
 import { RiskBadge, StatusBadge } from "@/components/Badge";
 import { mockCaseFiles } from "@/lib/mockData";
+import { ChatPanel } from "@/components/ChatPanel";
 
 function Panel({ title, className, children }: {
   title: string;
@@ -44,9 +45,8 @@ export function Dashboard() {
           <CaseList cases={mockCaseFiles} selectedId={selectedId} onSelect={setSelectedId}/>
         </Panel>
 
-        {/* TODO: Agent chat */}
         <Panel title="Investigation Chat" className="min-w-0 flex-1">
-          <EmptyState text="Agent chat — coming in Step 6."/>
+          <ChatPanel />
         </Panel>
 
         {/* TODO: Context panel */}
