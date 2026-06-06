@@ -1,6 +1,6 @@
 import json
 import os
-from elasticsearch_serverless import Elasticsearch, helpers
+from elasticsearch import Elasticsearch, helpers
 from dotenv import load_dotenv
 
 load_dotenv()
