@@ -1,0 +1,26 @@
+{
+  "mappings": {
+    "properties": {
+      "case_id": { "type": "keyword" },
+      "created_at": { "type": "date" },
+      "created_by": { "type": "keyword" },
+      "subject": {
+        "type": "text",
+        "copy_to": "memory_semantic"
+      },
+      "summary": {
+        "type": "text",
+        "copy_to": "memory_semantic"
+      },
+      "memory_semantic": {
+        "type": "semantic_text"
+      },
+      "entities_involved": { "type": "keyword" },
+      "risk_level": { "type": "keyword" },
+      "status": { "type": "keyword" },
+      "findings": { "type": "text" },
+      "recommended_actions": { "type": "text" },
+      "related_cases": { "type": "keyword" }
+    }
+  }
+}

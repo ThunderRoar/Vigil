@@ -1,0 +1,23 @@
+{
+    "mappings": {
+      "properties": {
+        "account_id": { "type": "keyword" },
+        "customer_name": {
+          "type": "text",
+          "fields": { "keyword": { "type": "keyword" } }
+        },
+        "entity_type": { "type": "keyword" },
+        "country_of_incorporation": { "type": "keyword" },
+        "risk_score": { "type": "integer" },
+        "risk_level": { "type": "keyword" },
+        "onboarding_date": { "type": "date" },
+        "last_review_date": { "type": "date" },
+        "pep_status": { "type": "boolean" },
+        "sanctions_match": { "type": "boolean" },
+        "document_status": { "type": "keyword" },
+        "beneficial_owners": { "type": "keyword" },
+        "industry": { "type": "keyword" }
+      }
+    }
+  }
+  

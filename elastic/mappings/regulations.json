@@ -1,0 +1,23 @@
+{
+  "mappings": {
+    "properties": {
+      "regulation_id": { "type": "keyword" },
+      "title": {
+        "type": "text",
+        "fields": { "keyword": { "type": "keyword" } }
+      },
+      "body": {
+        "type": "text",
+        "copy_to": "body_semantic"
+      },
+      "body_semantic": {
+        "type": "semantic_text"
+      },
+      "jurisdiction": { "type": "keyword" },
+      "authority": { "type": "keyword" },
+      "effective_date": { "type": "date" },
+      "categories": { "type": "keyword" },
+      "last_updated": { "type": "date" }
+    }
+  }
+}

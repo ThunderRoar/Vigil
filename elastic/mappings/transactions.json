@@ -1,0 +1,24 @@
+{
+    "mappings": {
+      "properties": {
+        "transaction_id": { "type": "keyword" },
+        "timestamp": { "type": "date" },
+        "amount": { "type": "double" },
+        "currency": { "type": "keyword" },
+        "type": { "type": "keyword" },
+        "direction": { "type": "keyword" },
+        "account_id": { "type": "keyword" },
+        "counterparty": {
+          "type": "text",
+          "fields": {
+            "keyword": { "type": "keyword" }
+          }
+        },
+        "counterparty_country": { "type": "keyword" },
+        "description": { "type": "text" },
+        "risk_flags": { "type": "keyword" },
+        "status": { "type": "keyword" }
+      }
+    }
+  }
+  
