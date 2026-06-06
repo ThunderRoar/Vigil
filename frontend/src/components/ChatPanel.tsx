@@ -2,35 +2,44 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Send, Loader2, Check, Sparkles } from "lucide-react";
+import { mockKyc, mockTransactions, mockRegulations } from "@/lib/mockData";
+import type { InvestigationContext } from "@/components/ContextPanel";
 
 type ToolCall = { label: string; done: boolean };
 type Msg = { id: string; role: "user" | "agent"; content: string; tools?: ToolCall[] };
 
-// TODO: replace tmp scaffold
-const SCRIPT = {
-  prompt: "Investigate Meridian Capital Group",
-  tools: [
-    "Looking up KYC profile for Meridian Capital Group",
-    "Searching transactions for ACC-8891",
-    "Running transaction velocity check",
-    "Searching regulations (SAR, cross-border)",
-    "Searching past case files"
-  ],
-  answer: `I investigated Meridian Capital Group (ACC-8891) and found serious red flags:
+const meridianKyc = mockKyc.find((k) => k.account_id === "ACC-8891")!;
+const meridianTxns = mockTransactions.filter(
+  (t) => t.account_id === "ACC-8891" && t.counterparty === "Aurora Holdings Ltd"
+);
+const sarReg = mockRegulations.find((r) => r.regulation_id === "REG-BSA-SAR-001")!;
 
-- Velocity anomaly: 26 wires in two tight bursts (14 on May 15, 12 on Jun 3), totaling $532,500 to Aurora Holdings Ltd (Cyprus).
-- KYC: risk score 78/100, documentation INCOMPLETE.
-- Cross-border transfers to a high-risk jurisdiction.
-- Under the Bank Secrecy Act, this likely meets the threshold for a SAR filing.
+const PROMPT = "Investigate Meridian Capital Group";
+const STEPS: { label: string; patch?: InvestigationContext }[] = [
+  { label: "Looking up KYC profile for Meridian Capital Group", patch: { kyc: meridianKyc } },
+  { label: "Searching transactions for ACC-8891", patch: { transactions: meridianTxns } },
+  { label: "Running transaction velocity check" },
+  { label: "Searching regulations (SAR, cross-border)", patch: { regulation: sarReg } },
+  { label: "Searching past case files" },
+];
+const ANSWER = `I investigated Meridian Capital Group (ACC-8891) and found serious red flags:
+
+• Velocity anomaly: 26 wires in two tight bursts (14 on May 15, 12 on Jun 3), totaling $532,500 to Aurora Holdings Ltd (Cyprus).
+• KYC: risk score 78/100, documentation INCOMPLETE.
+• Cross-border transfers to a high-risk jurisdiction.
+• Under the Bank Secrecy Act, this likely meets the threshold for a SAR filing.
 
 Recommendation: escalate for SAR filing, request updated KYC documents, and place enhanced monitoring on ACC-8891.
 
-Would you like me to save a case file?`
-};
+Would you like me to save a case file?`;
+
 
 const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-export function ChatPanel() {
+export function ChatPanel({ onContext, onResetContext }: {
+  onContext: (patch: InvestigationContext) => void;
+  onResetContext: () => void;
+}) {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
@@ -39,7 +48,6 @@ export function ChatPanel() {
   // auto scroll
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
-    console.log(messages)
   }, [messages]);
 
   async function send(text: string) {
@@ -55,32 +63,31 @@ export function ChatPanel() {
     ]);
 
     // reveal each tool call
-    for (const label of SCRIPT.tools) {
+    onResetContext();
+    for (const step of STEPS) {
       setMessages((m) =>
         m.map((msg) =>
           msg.id === agentId
-            ? { ...msg, tools: [...(msg.tools ?? []), { label, done: false }] }
+            ? { ...msg, tools: [...(msg.tools ?? []), { label: step.label, done: false }] }
             : msg
         )
       );
       await delay(750);
       setMessages((m) =>
-        m.map(
-          (msg) => msg.id === agentId ? 
+        m.map((msg) =>
+          msg.id === agentId ? 
             {
               ...msg,
-              tools: msg.tools?.map((t, i) =>
-                i === msg.tools!.length - 1 ? { ...t, done: true } : t
-              )
-            } : msg
+              tools: msg.tools?.map((t, i) => i === msg.tools!.length - 1 ? { ...t, done: true } : t)
+            }
+          : msg
         )
       );
+      if (step.patch) onContext(step.patch); // reveal evidence in the Context panel
     }
 
     await delay(400);
-    setMessages((m) =>
-      m.map((msg) => (msg.id === agentId ? { ...msg, content: SCRIPT.answer } : msg))
-    );
+    setMessages((m) => m.map((msg) => (msg.id === agentId ? { ...msg, content: ANSWER } : msg)));
     setBusy(false);
   }
 
@@ -95,10 +102,10 @@ export function ChatPanel() {
               Ask Vigil to investigate an entity or pattern.
             </p>
             <button
-              onClick={() => send(SCRIPT.prompt)}
+              onClick={() => send(PROMPT)}
               className="rounded-full border border-border px-3 py-1.5 text-sm text-foreground transition-colors hover:bg-surface-2"
             >
-              {SCRIPT.prompt}
+              {PROMPT}
             </button>
           </div>
         )}
