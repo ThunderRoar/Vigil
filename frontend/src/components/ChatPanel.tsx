@@ -8,13 +8,15 @@ import type { CaseFile } from "@/lib/types";
 import { Markdown } from "@/components/Markdown";
 
 type ToolCall = { label: string; done: boolean };
-type Msg = { 
+type Msg = {
   id: string;
   role: "user" | "agent";
   content: string;
   tools?: ToolCall[];
   offerSave?: boolean;
   saved?: boolean;
+  saving?: boolean;
+  saveError?: boolean;
 };
 
 const meridianKyc = mockKyc.find((k) => k.account_id === "ACC-8891")!;
@@ -187,28 +189,52 @@ export function ChatPanel({ onContext, onResetContext, onSaveCase }: {
                 )}
                 {msg.offerSave && (
                   <button
-                    onClick={() => {
-                      onSaveCase(buildCaseFile());
+                    onClick={async () => {
+                      const c = buildCaseFile();
                       setMessages((m) =>
-                        m.map((x) => (x.id === msg.id ? { ...x, saved: true } : x))
+                        m.map((x) =>
+                          x.id === msg.id ? { ...x, saving: true, saveError: false } : x
+                        )
                       );
+                      try {
+                        const res = await fetch("/api/cases", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify(c),
+                        });
+                        if (!res.ok) throw new Error(await res.text());
+                        onSaveCase(c); // persisted -> reflect in the case list
+                        setMessages((m) =>
+                          m.map((x) =>
+                            x.id === msg.id ? { ...x, saved: true, saving: false } : x
+                          )
+                        );
+                      } catch (err) {
+                        console.error("save case failed", err);
+                        setMessages((m) =>
+                          m.map((x) =>
+                            x.id === msg.id ? { ...x, saving: false, saveError: true } : x
+                          )
+                        );
+                      }
                     }}
-                    disabled={msg.saved}
+                    disabled={msg.saved || msg.saving}
                     className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
                       msg.saved
                         ? "border border-success text-success"
-                        : "bg-primary text-white hover:opacity-90"
+                        : msg.saveError
+                          ? "border border-danger text-danger"
+                          : "bg-primary text-white hover:opacity-90 disabled:opacity-60"
                     }`}
                   >
                     {msg.saved ? (
-                      <>
-                        <Check className="h-4 w-4" /> Case file saved
-                      </>
-                    ) : (
-                      <>
-                        <Save className="h-4 w-4" /> Save case file
-                      </>
-                    )}
+                      <><Check className="h-4 w-4" /> Case file saved</>
+                    ) : msg.saving ? (
+                      <><Loader2 className="h-4 w-4 animate-spin" /> Saving...</>
+                    ) : msg.saveError ? (
+                      <><Save className="h-4 w-4" /> Save failed - retry</>
+                    ) : (<><Save className="h-4 w-4" /> Save case file</>)
+                    }
                   </button>
                 )}
               </div>
