@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Send, Loader2, Check, Sparkles, Save } from "lucide-react";
-import { mockKyc, mockTransactions, mockRegulations } from "@/lib/mockData";
 import type { InvestigationContext } from "@/components/ContextPanel";
 import type { CaseFile } from "@/lib/types";
 import { Markdown } from "@/components/Markdown";
@@ -19,32 +18,19 @@ type Msg = {
   saveError?: boolean;
 };
 
-const meridianKyc = mockKyc.find((k) => k.account_id === "ACC-8891")!;
-const meridianTxns = mockTransactions.filter(
-  (t) => t.account_id === "ACC-8891" && t.counterparty === "Aurora Holdings Ltd"
-);
-const sarReg = mockRegulations.find((r) => r.regulation_id === "REG-BSA-SAR-001")!;
-
 const PROMPT = "Investigate Meridian Capital Group";
-const STEPS: { label: string; patch?: InvestigationContext }[] = [
-  { label: "Looking up KYC profile for Meridian Capital Group", patch: { kyc: meridianKyc } },
-  { label: "Searching transactions for ACC-8891", patch: { transactions: meridianTxns } },
-  { label: "Running transaction velocity check" },
-  { label: "Searching regulations (SAR, cross-border)", patch: { regulation: sarReg } },
-  { label: "Searching past case files" },
-];
-const ANSWER = `I investigated **Meridian Capital Group** (\`ACC-8891\`) and found serious red flags:
 
-- **Velocity anomaly:** 26 wires in two tight bursts (14 on May 15, 12 on Jun 3), totaling **$532,500** to Aurora Holdings Ltd (Cyprus).
-- **KYC:** risk score **78/100**, documentation **incomplete**.
-- **Cross-border** transfers to a high-risk jurisdiction.
-- Under the **Bank Secrecy Act**, this likely meets the threshold for a **SAR filing**.
-
-**Recommendation:** escalate for SAR filing, request updated KYC documents, and place enhanced monitoring on \`ACC-8891\`.
-
-Would you like me to save a case file?`;
+const TOOL_LABELS: Record<string, string> = {
+  lookup_kyc: "Looking up KYC profile",
+  search_transactions: "Searching transactions",
+  transaction_velocity_check: "Running transaction velocity check",
+  high_risk_accounts: "Scanning high-risk accounts",
+  search_regulations: "Searching regulations",
+  search_case_files: "Searching past case files",
+};
 
 const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 function buildCaseFile(): CaseFile {
   return {
     case_id: `CASE-2026-${String(Date.now()).slice(-4)}`,
@@ -65,12 +51,11 @@ function buildCaseFile(): CaseFile {
     recommended_actions: [
       "File SAR with FinCEN",
       "Request updated KYC documents",
-      "Enhanced monitoring on ACC-8891",
+      "Enhanced monitoring on ACC-8891"
     ],
     related_cases: []
   };
 }
-
 
 export function ChatPanel({ onContext, onResetContext, onSaveCase }: {
   onContext: (patch: InvestigationContext) => void;
@@ -80,6 +65,7 @@ export function ChatPanel({ onContext, onResetContext, onSaveCase }: {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
+  const [sessionId] = useState(() => crypto.randomUUID()); // one ADK session per page load
   const endRef = useRef<HTMLDivElement>(null);
 
   // auto scroll
@@ -91,52 +77,103 @@ export function ChatPanel({ onContext, onResetContext, onSaveCase }: {
     if (!text.trim() || busy) return;
     setBusy(true);
     setInput("");
+    onResetContext();
 
     const agentId = crypto.randomUUID();
     setMessages((m) => [
       ...m,
       { id: crypto.randomUUID(), role: "user", content: text },
-      { id: agentId, role: "agent", content: "", tools: [] }
+      { id: agentId, role: "agent", content: "", tools: [{ label: "Investigating…", done: false }] }
     ]);
 
-    // reveal each tool call
-    onResetContext();
-    for (const step of STEPS) {
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text, sessionId })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || "Agent request failed");
+
+      const { toolCalls, answer, context } = data as {
+        toolCalls: { name: string }[];
+        answer: string;
+        context: InvestigationContext;
+      };
+
+      // clear the placeholder, then reveal the real tool calls one by one
+      setMessages((m) => m.map((msg) => (msg.id === agentId ? { ...msg, tools: [] } : msg)));
+
+      for (const tc of toolCalls) {
+        const label = TOOL_LABELS[tc.name] ?? tc.name;
+        setMessages((m) =>
+          m.map((msg) =>
+            msg.id === agentId
+              ? { ...msg, tools: [...(msg.tools ?? []), { label, done: false }] }
+              : msg
+          )
+        );
+        await delay(450);
+        setMessages((m) =>
+          m.map((msg) =>
+            msg.id === agentId
+              ? {
+                  ...msg,
+                  tools: msg.tools?.map((t, i) =>
+                    i === msg.tools!.length - 1 ? { ...t, done: true } : t
+                  )
+                }
+              : msg
+          )
+        );
+        // surface the matching evidence (real tool output) in the Context panel
+        if (tc.name === "lookup_kyc" && context.kyc) onContext({ kyc: context.kyc });
+        else if (tc.name === "search_transactions" && context.transactions)
+          onContext({ transactions: context.transactions });
+        else if (tc.name === "search_regulations" && context.regulation)
+          onContext({ regulation: context.regulation });
+      }
+
+      // safety net to capture all data
+      onContext(context);
+      await delay(250);
+      const investigativeTools = [
+        "lookup_kyc",
+        "search_transactions",
+        "transaction_velocity_check",
+        "high_risk_accounts",
+      ];
+      const offerSave = toolCalls.some((tc) => investigativeTools.includes(tc.name));
       setMessages((m) =>
         m.map((msg) =>
           msg.id === agentId
-            ? { ...msg, tools: [...(msg.tools ?? []), { label: step.label, done: false }] }
+            ? { ...msg, content: answer || "(no answer returned)", offerSave }
             : msg
         )
       );
-      await delay(750);
+    } catch (err) {
+      console.error("chat error", err);
       setMessages((m) =>
         m.map((msg) =>
-          msg.id === agentId ? 
-            {
-              ...msg,
-              tools: msg.tools?.map((t, i) => i === msg.tools!.length - 1 ? { ...t, done: true } : t)
-            }
-          : msg
+          msg.id === agentId
+            ? {
+                ...msg,
+                tools: [],
+                content: `[ERROR] ${err instanceof Error ? err.message : "Agent request failed."}`
+              }
+            : msg
         )
       );
-      if (step.patch) onContext(step.patch); // reveal evidence in the Context panel
+    } finally {
+      setBusy(false);
     }
-
-    await delay(400);
-    setMessages((m) =>
-      m.map((msg) =>
-        msg.id === agentId ? { ...msg, content: ANSWER, offerSave: true } : msg
-      )
-    );
-    setBusy(false);
   }
 
   return (
     <div className="flex h-full flex-col">
       {/* message thread */}
       <div className="flex-1 space-y-4 overflow-y-auto p-4">
-      {messages.length === 0 && (
+        {messages.length === 0 && (
           <div className="fade-in-up flex h-full flex-col items-center justify-center gap-3 px-6 text-center">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
               <Sparkles className="h-6 w-6 text-primary" />

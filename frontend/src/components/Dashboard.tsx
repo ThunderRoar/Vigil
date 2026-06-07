@@ -44,7 +44,15 @@ export function Dashboard() {
 
       <div className="flex min-h-0 flex-1">
         <Panel title="Investigations" className="w-70 shrink-0 border-r border-border-surface">
-          <CaseList cases={cases} selectedId={selectedId} onSelect={setSelectedId} highlightId={highlightId}/>
+          <CaseList
+            cases={cases}
+            selectedId={selectedId}
+            onSelect={(id) => {
+              setSelectedId(id);
+              setContext({}); // switch the right panel to this case's detail
+            }}
+            highlightId={highlightId}
+          />
         </Panel>
 
         <Panel title="Investigation Chat" className="min-w-0 flex-1">
@@ -56,7 +64,10 @@ export function Dashboard() {
         </Panel>
 
         <Panel title="Context" className="w-90 shrink-0 border-l border-border bg-surface">
-          <ContextPanel context={context} />
+          <ContextPanel
+            context={context}
+            selectedCase={cases.find((c) => c.case_id === selectedId) ?? null}
+          />
         </Panel>
       </div>
     </div>
