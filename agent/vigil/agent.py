@@ -14,7 +14,7 @@ from google.adk.tools.mcp_tool.mcp_toolset import (
 )
 
 _HERE = os.path.dirname(__file__)
-with open(os.path.join(_HERE, "..", "system_prompt.txt"), encoding="utf-8") as f:
+with open(os.path.join(_HERE, "system_prompt.txt"), encoding="utf-8") as f:
     SYSTEM_PROMPT = f.read()
 
 _MCP_URL = os.environ["ELASTIC_MCP_URL"]
