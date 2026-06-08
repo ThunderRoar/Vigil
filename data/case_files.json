@@ -43,5 +43,28 @@
       "No SAR required"
     ],
     "related_cases": []
+  },
+  {
+    "case_id": "CASE-2026-0019",
+    "created_at": "2026-05-02T11:10:00Z",
+    "created_by": "vigil-agent",
+    "subject": "Riviera Property SC - PEP-linked offshore inflows",
+    "summary": "Large inbound transfers to ACC-5310 from offshore nominee accounts. The beneficial owner is a Politically Exposed Person. Enhanced Due Diligence triggered; escalated to senior compliance for source-of-funds review.",
+    "entities_involved": [
+      "ACC-5310",
+      "Riviera Property SC"
+    ],
+    "risk_level": "medium",
+    "status": "escalated",
+    "findings": [
+      "Beneficial owner flagged as PEP",
+      "Large inbound wires from offshore nominee (Eastgate Nominees Ltd)",
+      "Source of funds not documented"
+    ],
+    "recommended_actions": [
+      "Obtain source-of-funds documentation",
+      "Senior management sign-off"
+    ],
+    "related_cases": []
   }
 ]

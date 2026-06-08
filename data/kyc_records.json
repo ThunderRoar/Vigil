@@ -19,114 +19,207 @@
   },
   {
     "account_id": "ACC-7702",
-    "customer_name": "Jane Khan",
-    "entity_type": "individual",
-    "country_of_incorporation": "US",
-    "risk_score": 64,
-    "risk_level": "medium",
-    "onboarding_date": "2025-10-25",
-    "last_review_date": "2026-02-18",
+    "customer_name": "Pacific Import Export",
+    "entity_type": "corporate",
+    "country_of_incorporation": "United Arab Emirates",
+    "risk_score": 71,
+    "risk_level": "high",
+    "onboarding_date": "2025-03-04",
+    "last_review_date": "2025-12-01",
     "pep_status": false,
     "sanctions_match": false,
     "document_status": "complete",
-    "beneficial_owners": [],
-    "industry": "hospitality"
+    "beneficial_owners": [
+      "Omar Haddad"
+    ],
+    "industry": "import_export"
   },
   {
     "account_id": "ACC-5310",
-    "customer_name": "Vertex Group Ltd",
+    "customer_name": "Riviera Property SC",
     "entity_type": "corporate",
-    "country_of_incorporation": "DE",
-    "risk_score": 63,
+    "country_of_incorporation": "Seychelles",
+    "risk_score": 64,
     "risk_level": "medium",
-    "onboarding_date": "2024-04-26",
-    "last_review_date": "2026-04-13",
-    "pep_status": false,
+    "onboarding_date": "2025-06-20",
+    "last_review_date": "2026-02-10",
+    "pep_status": true,
     "sanctions_match": false,
     "document_status": "complete",
     "beneficial_owners": [
-      "Liam Ivanov",
-      "Raj Khan"
-    ],
-    "industry": "hospitality"
-  },
-  {
-    "account_id": "ACC-2824",
-    "customer_name": "John Mueller",
-    "entity_type": "individual",
-    "country_of_incorporation": "JP",
-    "risk_score": 19,
-    "risk_level": "low",
-    "onboarding_date": "2024-12-22",
-    "last_review_date": "2026-03-19",
-    "pep_status": false,
-    "sanctions_match": false,
-    "document_status": "incomplete",
-    "beneficial_owners": [],
-    "industry": "hospitality"
-  },
-  {
-    "account_id": "ACC-1409",
-    "customer_name": "Atlas Trading Ltd",
-    "entity_type": "corporate",
-    "country_of_incorporation": "FR",
-    "risk_score": 46,
-    "risk_level": "medium",
-    "onboarding_date": "2025-05-10",
-    "last_review_date": "2026-04-21",
-    "pep_status": false,
-    "sanctions_match": false,
-    "document_status": "complete",
-    "beneficial_owners": [
-      "Anna Chen",
-      "Anna Chen"
-    ],
-    "industry": "hospitality"
-  },
-  {
-    "account_id": "ACC-5506",
-    "customer_name": "Atlas Holdings Ltd",
-    "entity_type": "corporate",
-    "country_of_incorporation": "AE",
-    "risk_score": 61,
-    "risk_level": "medium",
-    "onboarding_date": "2023-12-25",
-    "last_review_date": "2026-05-14",
-    "pep_status": false,
-    "sanctions_match": false,
-    "document_status": "complete",
-    "beneficial_owners": [
-      "Liam Novak"
+      "Elena Petrova",
+      "Marco Rossi"
     ],
     "industry": "real_estate"
   },
   {
-    "account_id": "ACC-5012",
-    "customer_name": "Delta Group Ltd",
+    "account_id": "ACC-3300",
+    "customer_name": "Summit Ventures Ltd",
     "entity_type": "corporate",
-    "country_of_incorporation": "AU",
-    "risk_score": 34,
+    "country_of_incorporation": "United States",
+    "risk_score": 22,
     "risk_level": "low",
-    "onboarding_date": "2026-01-25",
-    "last_review_date": "2025-12-03",
+    "onboarding_date": "2024-11-05",
+    "last_review_date": "2026-03-01",
     "pep_status": false,
     "sanctions_match": false,
     "document_status": "complete",
     "beneficial_owners": [
-      "Ahmed Mueller",
-      "Jane Ivanov",
-      "Liam Rossi"
+      "Sarah Lin"
     ],
-    "industry": "retail"
+    "industry": "technology"
+  },
+  {
+    "account_id": "ACC-4400",
+    "customer_name": "Crimson Trading FZE",
+    "entity_type": "corporate",
+    "country_of_incorporation": "United Arab Emirates",
+    "risk_score": 88,
+    "risk_level": "high",
+    "onboarding_date": "2025-09-30",
+    "last_review_date": "2026-02-20",
+    "pep_status": false,
+    "sanctions_match": true,
+    "document_status": "incomplete",
+    "beneficial_owners": [
+      "Viktor Sokolov"
+    ],
+    "industry": "import_export"
+  },
+  {
+    "account_id": "ACC-2824",
+    "customer_name": "Anna Khan",
+    "entity_type": "individual",
+    "country_of_incorporation": "AU",
+    "risk_score": 28,
+    "risk_level": "low",
+    "onboarding_date": "2024-02-15",
+    "last_review_date": "2026-05-09",
+    "pep_status": true,
+    "sanctions_match": false,
+    "document_status": "complete",
+    "beneficial_owners": [],
+    "industry": "consulting"
+  },
+  {
+    "account_id": "ACC-1409",
+    "customer_name": "Liam Ivanov",
+    "entity_type": "individual",
+    "country_of_incorporation": "NL",
+    "risk_score": 11,
+    "risk_level": "low",
+    "onboarding_date": "2024-10-29",
+    "last_review_date": "2025-12-15",
+    "pep_status": false,
+    "sanctions_match": false,
+    "document_status": "complete",
+    "beneficial_owners": [],
+    "industry": "hospitality"
+  },
+  {
+    "account_id": "ACC-5506",
+    "customer_name": "Crescent Holdings Ltd",
+    "entity_type": "corporate",
+    "country_of_incorporation": "GB",
+    "risk_score": 48,
+    "risk_level": "medium",
+    "onboarding_date": "2024-05-23",
+    "last_review_date": "2025-12-15",
+    "pep_status": false,
+    "sanctions_match": false,
+    "document_status": "complete",
+    "beneficial_owners": [
+      "Sofia Chen"
+    ],
+    "industry": "consulting"
+  },
+  {
+    "account_id": "ACC-5012",
+    "customer_name": "Mei Mueller",
+    "entity_type": "individual",
+    "country_of_incorporation": "AU",
+    "risk_score": 40,
+    "risk_level": "medium",
+    "onboarding_date": "2025-12-10",
+    "last_review_date": "2026-03-29",
+    "pep_status": false,
+    "sanctions_match": false,
+    "document_status": "complete",
+    "beneficial_owners": [],
+    "industry": "construction"
   },
   {
     "account_id": "ACC-4657",
-    "customer_name": "Delta Group Ltd",
+    "customer_name": "Crescent Partners Ltd",
     "entity_type": "corporate",
-    "country_of_incorporation": "JP",
+    "country_of_incorporation": "CA",
+    "risk_score": 41,
+    "risk_level": "medium",
+    "onboarding_date": "2025-07-03",
+    "last_review_date": "2025-12-10",
+    "pep_status": false,
+    "sanctions_match": false,
+    "document_status": "incomplete",
+    "beneficial_owners": [
+      "Sofia Rossi",
+      "Ahmed Rossi",
+      "Mei Patel"
+    ],
+    "industry": "consulting"
+  },
+  {
+    "account_id": "ACC-3286",
+    "customer_name": "Liam Mueller",
+    "entity_type": "individual",
+    "country_of_incorporation": "DE",
+    "risk_score": 42,
+    "risk_level": "medium",
+    "onboarding_date": "2025-06-26",
+    "last_review_date": "2026-04-21",
+    "pep_status": false,
+    "sanctions_match": false,
+    "document_status": "complete",
+    "beneficial_owners": [],
+    "industry": "financial_services"
+  },
+  {
+    "account_id": "ACC-2679",
+    "customer_name": "Liam Novak",
+    "entity_type": "individual",
+    "country_of_incorporation": "CA",
+    "risk_score": 15,
+    "risk_level": "low",
+    "onboarding_date": "2025-12-02",
+    "last_review_date": "2026-02-17",
+    "pep_status": false,
+    "sanctions_match": false,
+    "document_status": "incomplete",
+    "beneficial_owners": [],
+    "industry": "consulting"
+  },
+  {
+    "account_id": "ACC-9935",
+    "customer_name": "Jane Patel",
+    "entity_type": "individual",
+    "country_of_incorporation": "NL",
+    "risk_score": 5,
+    "risk_level": "low",
+    "onboarding_date": "2023-12-30",
+    "last_review_date": "2026-03-19",
+    "pep_status": false,
+    "sanctions_match": false,
+    "document_status": "complete",
+    "beneficial_owners": [],
+    "industry": "consulting"
+  },
+  {
+    "account_id": "ACC-2424",
+    "customer_name": "Crescent Partners Ltd",
+    "entity_type": "corporate",
+    "country_of_incorporation": "FR",
     "risk_score": 51,
     "risk_level": "medium",
-    "onboarding_date": "2023-12-18",
+    "onboarding_date": "2024-09-11",
     "last_review_date": "2026-04-11",
     "pep_status": false,
     "sanctions_match": false,
@@ -139,8 +232,8 @@
     "industry": "import_export"
   },
   {
-    "account_id": "ACC-3286",
-    "customer_name": "Apex Group Ltd",
+    "account_id": "ACC-7912",
+    "customer_name": "Apex Industries Ltd",
     "entity_type": "corporate",
     "country_of_incorporation": "NL",
     "risk_score": 38,
@@ -157,101 +250,103 @@
     "industry": "real_estate"
   },
   {
-    "account_id": "ACC-2679",
-    "customer_name": "Orion Trading Ltd",
+    "account_id": "ACC-1520",
+    "customer_name": "Atlas Industries Ltd",
     "entity_type": "corporate",
     "country_of_incorporation": "FR",
     "risk_score": 9,
     "risk_level": "low",
-    "onboarding_date": "2024-04-01",
+    "onboarding_date": "2025-09-30",
+    "last_review_date": "2026-04-24",
+    "pep_status": false,
+    "sanctions_match": false,
+    "document_status": "incomplete",
+    "beneficial_owners": [
+      "Ahmed Patel"
+    ],
+    "industry": "construction"
+  },
+  {
+    "account_id": "ACC-1488",
+    "customer_name": "Mei Ivanov",
+    "entity_type": "individual",
+    "country_of_incorporation": "PA",
+    "risk_score": 69,
+    "risk_level": "medium",
+    "onboarding_date": "2024-12-24",
+    "last_review_date": "2025-12-06",
+    "pep_status": false,
+    "sanctions_match": false,
+    "document_status": "complete",
+    "beneficial_owners": [],
+    "industry": "retail"
+  },
+  {
+    "account_id": "ACC-2535",
+    "customer_name": "Apex Industries Ltd",
+    "entity_type": "corporate",
+    "country_of_incorporation": "GB",
+    "risk_score": 26,
+    "risk_level": "low",
+    "onboarding_date": "2024-07-18",
+    "last_review_date": "2026-03-29",
+    "pep_status": false,
+    "sanctions_match": false,
+    "document_status": "complete",
+    "beneficial_owners": [
+      "John Khan",
+      "Jane Doe",
+      "Olga Smith"
+    ],
+    "industry": "technology"
+  },
+  {
+    "account_id": "ACC-4582",
+    "customer_name": "Vertex Industries Ltd",
+    "entity_type": "corporate",
+    "country_of_incorporation": "FR",
+    "risk_score": 39,
+    "risk_level": "low",
+    "onboarding_date": "2024-06-25",
     "last_review_date": "2026-01-25",
     "pep_status": false,
     "sanctions_match": false,
     "document_status": "complete",
     "beneficial_owners": [
-      "Anna Chen",
-      "Mei Patel",
-      "Mei Ivanov"
+      "Mei Smith",
+      "Jane Chen"
     ],
-    "industry": "construction"
+    "industry": "hospitality"
   },
   {
-    "account_id": "ACC-9935",
-    "customer_name": "Raj Garcia",
-    "entity_type": "individual",
-    "country_of_incorporation": "AU",
-    "risk_score": 33,
-    "risk_level": "low",
-    "onboarding_date": "2025-10-05",
-    "last_review_date": "2026-03-24",
-    "pep_status": false,
-    "sanctions_match": false,
-    "document_status": "complete",
-    "beneficial_owners": [],
-    "industry": "technology"
-  },
-  {
-    "account_id": "ACC-2424",
-    "customer_name": "Apex Trading Ltd",
-    "entity_type": "corporate",
-    "country_of_incorporation": "US",
-    "risk_score": 50,
-    "risk_level": "medium",
-    "onboarding_date": "2025-11-28",
-    "last_review_date": "2026-05-18",
-    "pep_status": false,
-    "sanctions_match": false,
-    "document_status": "complete",
-    "beneficial_owners": [
-      "Ahmed Garcia"
-    ],
-    "industry": "technology"
-  },
-  {
-    "account_id": "ACC-7912",
-    "customer_name": "Atlas Trading Ltd",
-    "entity_type": "corporate",
-    "country_of_incorporation": "JP",
-    "risk_score": 41,
-    "risk_level": "medium",
-    "onboarding_date": "2024-10-09",
-    "last_review_date": "2026-02-11",
-    "pep_status": false,
-    "sanctions_match": false,
-    "document_status": "complete",
-    "beneficial_owners": [
-      "Olga Chen",
-      "Liam Garcia"
-    ],
-    "industry": "financial_services"
-  },
-  {
-    "account_id": "ACC-1520",
-    "customer_name": "John Chen",
-    "entity_type": "individual",
-    "country_of_incorporation": "AE",
-    "risk_score": 48,
-    "risk_level": "medium",
-    "onboarding_date": "2024-01-22",
-    "last_review_date": "2026-03-01",
-    "pep_status": false,
-    "sanctions_match": false,
-    "document_status": "complete",
-    "beneficial_owners": [],
-    "industry": "technology"
-  },
-  {
-    "account_id": "ACC-1488",
-    "customer_name": "Orion Partners Ltd",
+    "account_id": "ACC-4811",
+    "customer_name": "Apex Holdings Ltd",
     "entity_type": "corporate",
     "country_of_incorporation": "FR",
-    "risk_score": 32,
-    "risk_level": "low",
-    "onboarding_date": "2024-10-20",
-    "last_review_date": "2026-03-24",
+    "risk_score": 51,
+    "risk_level": "medium",
+    "onboarding_date": "2025-12-05",
+    "last_review_date": "2026-02-12",
     "pep_status": false,
     "sanctions_match": false,
     "document_status": "complete",
+    "beneficial_owners": [
+      "Mei Khan"
+    ],
+    "industry": "technology"
+  },
+  {
+    "account_id": "ACC-9279",
+    "customer_name": "Orion Group Ltd",
+    "entity_type": "corporate",
+    "country_of_incorporation": "CA",
+    "risk_score": 16,
+    "risk_level": "low",
+    "onboarding_date": "2025-05-26",
+    "last_review_date": "2026-05-07",
+    "pep_status": false,
+    "sanctions_match": false,
+    "document_status": "incomplete",
     "beneficial_owners": [
       "Jane Doe",
       "Raj Doe",
@@ -260,7 +355,7 @@
     "industry": "import_export"
   },
   {
-    "account_id": "ACC-2535",
+    "account_id": "ACC-1434",
     "customer_name": "Apex Trading Ltd",
     "entity_type": "corporate",
     "country_of_incorporation": "FR",
@@ -278,41 +373,43 @@
     "industry": "import_export"
   },
   {
-    "account_id": "ACC-4582",
-    "customer_name": "Apex Industries Ltd",
+    "account_id": "ACC-4257",
+    "customer_name": "Pioneer Industries Ltd",
     "entity_type": "corporate",
     "country_of_incorporation": "CA",
     "risk_score": 8,
     "risk_level": "low",
-    "onboarding_date": "2025-03-21",
-    "last_review_date": "2026-05-12",
+    "onboarding_date": "2025-12-05",
+    "last_review_date": "2026-03-07",
     "pep_status": true,
     "sanctions_match": false,
     "document_status": "complete",
     "beneficial_owners": [
-      "Carlos Doe",
-      "Raj Smith",
-      "Carlos Smith"
+      "Raj Rossi",
+      "John Patel",
+      "Jane Rossi"
     ],
     "industry": "real_estate"
   },
   {
-    "account_id": "ACC-4811",
-    "customer_name": "Anna Khan",
-    "entity_type": "individual",
-    "country_of_incorporation": "GB",
-    "risk_score": 12,
+    "account_id": "ACC-9928",
+    "customer_name": "Delta Holdings Ltd",
+    "entity_type": "corporate",
+    "country_of_incorporation": "JP",
+    "risk_score": 20,
     "risk_level": "low",
-    "onboarding_date": "2024-06-23",
-    "last_review_date": "2025-12-25",
-    "pep_status": true,
+    "onboarding_date": "2024-07-02",
+    "last_review_date": "2026-03-24",
+    "pep_status": false,
     "sanctions_match": false,
     "document_status": "complete",
-    "beneficial_owners": [],
+    "beneficial_owners": [
+      "Liam Novak"
+    ],
     "industry": "hospitality"
   },
   {
-    "account_id": "ACC-9279",
+    "account_id": "ACC-7873",
     "customer_name": "Olga Khan",
     "entity_type": "individual",
     "country_of_incorporation": "CA",
@@ -327,8 +424,8 @@
     "industry": "retail"
   },
   {
-    "account_id": "ACC-1434",
-    "customer_name": "Apex Ventures Ltd",
+    "account_id": "ACC-4611",
+    "customer_name": "Apex Group Ltd",
     "entity_type": "corporate",
     "country_of_incorporation": "JP",
     "risk_score": 9,
@@ -344,7 +441,7 @@
     "industry": "import_export"
   },
   {
-    "account_id": "ACC-4257",
+    "account_id": "ACC-8359",
     "customer_name": "Olga Ivanov",
     "entity_type": "individual",
     "country_of_incorporation": "NL",
@@ -359,7 +456,7 @@
     "industry": "financial_services"
   },
   {
-    "account_id": "ACC-9928",
+    "account_id": "ACC-5557",
     "customer_name": "Jane Rossi",
     "entity_type": "individual",
     "country_of_incorporation": "FR",
@@ -374,8 +471,8 @@
     "industry": "import_export"
   },
   {
-    "account_id": "ACC-7873",
-    "customer_name": "Pioneer Trading Ltd",
+    "account_id": "ACC-1106",
+    "customer_name": "Orion Trading Ltd",
     "entity_type": "corporate",
     "country_of_incorporation": "AU",
     "risk_score": 50,
@@ -392,8 +489,8 @@
     "industry": "financial_services"
   },
   {
-    "account_id": "ACC-4611",
-    "customer_name": "Delta Trading Ltd",
+    "account_id": "ACC-3615",
+    "customer_name": "Orion Trading Ltd",
     "entity_type": "corporate",
     "country_of_incorporation": "JP",
     "risk_score": 45,
@@ -409,24 +506,24 @@
     "industry": "import_export"
   },
   {
-    "account_id": "ACC-8359",
-    "customer_name": "Orion Ventures Ltd",
+    "account_id": "ACC-7924",
+    "customer_name": "Pioneer Trading Ltd",
     "entity_type": "corporate",
     "country_of_incorporation": "NL",
     "risk_score": 42,
     "risk_level": "medium",
-    "onboarding_date": "2025-09-28",
-    "last_review_date": "2026-05-16",
-    "pep_status": false,
+    "onboarding_date": "2024-11-22",
+    "last_review_date": "2026-04-24",
+    "pep_status": true,
     "sanctions_match": false,
-    "document_status": "incomplete",
+    "document_status": "complete",
     "beneficial_owners": [
       "Olga Khan"
     ],
     "industry": "technology"
   },
   {
-    "account_id": "ACC-5557",
+    "account_id": "ACC-6574",
     "customer_name": "Liam Novak",
     "entity_type": "individual",
     "country_of_incorporation": "DE",
@@ -441,7 +538,7 @@
     "industry": "import_export"
   },
   {
-    "account_id": "ACC-1106",
+    "account_id": "ACC-5552",
     "customer_name": "John Rossi",
     "entity_type": "individual",
     "country_of_incorporation": "NL",
@@ -456,8 +553,8 @@
     "industry": "technology"
   },
   {
-    "account_id": "ACC-3615",
-    "customer_name": "Crescent Holdings Ltd",
+    "account_id": "ACC-3547",
+    "customer_name": "Delta Holdings Ltd",
     "entity_type": "corporate",
     "country_of_incorporation": "NL",
     "risk_score": 11,
@@ -474,17 +571,17 @@
     "industry": "technology"
   },
   {
-    "account_id": "ACC-7924",
-    "customer_name": "Delta Partners Ltd",
+    "account_id": "ACC-4527",
+    "customer_name": "Atlas Partners Ltd",
     "entity_type": "corporate",
     "country_of_incorporation": "GB",
     "risk_score": 9,
     "risk_level": "low",
-    "onboarding_date": "2024-04-20",
-    "last_review_date": "2026-01-16",
+    "onboarding_date": "2025-02-11",
+    "last_review_date": "2025-12-13",
     "pep_status": false,
     "sanctions_match": false,
-    "document_status": "incomplete",
+    "document_status": "complete",
     "beneficial_owners": [
       "Olga Doe",
       "Jane Ivanov",
@@ -493,216 +590,213 @@
     "industry": "consulting"
   },
   {
-    "account_id": "ACC-6574",
-    "customer_name": "Pioneer Ventures Ltd",
+    "account_id": "ACC-6514",
+    "customer_name": "Crescent Partners Ltd",
     "entity_type": "corporate",
     "country_of_incorporation": "AU",
     "risk_score": 27,
     "risk_level": "low",
-    "onboarding_date": "2024-05-26",
-    "last_review_date": "2026-01-16",
+    "onboarding_date": "2024-11-16",
+    "last_review_date": "2025-12-22",
     "pep_status": false,
     "sanctions_match": false,
-    "document_status": "incomplete",
+    "document_status": "complete",
     "beneficial_owners": [
-      "Ahmed Doe"
+      "Mei Ivanov",
+      "John Chen",
+      "John Patel"
+    ],
+    "industry": "technology"
+  },
+  {
+    "account_id": "ACC-2674",
+    "customer_name": "Orion Industries Ltd",
+    "entity_type": "corporate",
+    "country_of_incorporation": "US",
+    "risk_score": 47,
+    "risk_level": "medium",
+    "onboarding_date": "2025-03-21",
+    "last_review_date": "2025-12-08",
+    "pep_status": false,
+    "sanctions_match": false,
+    "document_status": "complete",
+    "beneficial_owners": [
+      "Raj Ivanov",
+      "Liam Mueller"
     ],
     "industry": "construction"
   },
   {
-    "account_id": "ACC-5552",
-    "customer_name": "Summit Partners Ltd",
-    "entity_type": "corporate",
-    "country_of_incorporation": "MT",
-    "risk_score": 62,
-    "risk_level": "medium",
-    "onboarding_date": "2024-11-21",
-    "last_review_date": "2026-05-09",
-    "pep_status": false,
-    "sanctions_match": false,
-    "document_status": "incomplete",
-    "beneficial_owners": [
-      "Olga Smith",
-      "Ahmed Patel",
-      "Ahmed Chen"
-    ],
-    "industry": "hospitality"
-  },
-  {
-    "account_id": "ACC-3547",
-    "customer_name": "Summit Ventures Ltd",
-    "entity_type": "corporate",
-    "country_of_incorporation": "GB",
-    "risk_score": 13,
+    "account_id": "ACC-2519",
+    "customer_name": "Liam Chen",
+    "entity_type": "individual",
+    "country_of_incorporation": "FR",
+    "risk_score": 17,
     "risk_level": "low",
-    "onboarding_date": "2024-03-27",
-    "last_review_date": "2026-02-18",
+    "onboarding_date": "2024-03-14",
+    "last_review_date": "2026-04-12",
+    "pep_status": false,
+    "sanctions_match": false,
+    "document_status": "complete",
+    "beneficial_owners": [],
+    "industry": "financial_services"
+  },
+  {
+    "account_id": "ACC-7224",
+    "customer_name": "Pioneer Industries Ltd",
+    "entity_type": "corporate",
+    "country_of_incorporation": "CA",
+    "risk_score": 55,
+    "risk_level": "medium",
+    "onboarding_date": "2024-04-06",
+    "last_review_date": "2026-03-05",
+    "pep_status": false,
+    "sanctions_match": false,
+    "document_status": "complete",
+    "beneficial_owners": [
+      "Raj Garcia"
+    ],
+    "industry": "import_export"
+  },
+  {
+    "account_id": "ACC-2584",
+    "customer_name": "Anna Mueller",
+    "entity_type": "individual",
+    "country_of_incorporation": "GB",
+    "risk_score": 47,
+    "risk_level": "medium",
+    "onboarding_date": "2025-11-02",
+    "last_review_date": "2026-03-27",
+    "pep_status": false,
+    "sanctions_match": false,
+    "document_status": "complete",
+    "beneficial_owners": [],
+    "industry": "technology"
+  },
+  {
+    "account_id": "ACC-6881",
+    "customer_name": "Pioneer Holdings Ltd",
+    "entity_type": "corporate",
+    "country_of_incorporation": "US",
+    "risk_score": 35,
+    "risk_level": "low",
+    "onboarding_date": "2024-10-27",
+    "last_review_date": "2026-02-09",
+    "pep_status": false,
+    "sanctions_match": false,
+    "document_status": "complete",
+    "beneficial_owners": [
+      "Liam Garcia",
+      "Liam Khan",
+      "Carlos Doe"
+    ],
+    "industry": "real_estate"
+  },
+  {
+    "account_id": "ACC-6635",
+    "customer_name": "Raj Garcia",
+    "entity_type": "individual",
+    "country_of_incorporation": "CA",
+    "risk_score": 49,
+    "risk_level": "medium",
+    "onboarding_date": "2025-12-16",
+    "last_review_date": "2026-01-04",
     "pep_status": false,
     "sanctions_match": false,
     "document_status": "incomplete",
-    "beneficial_owners": [
-      "Anna Ivanov",
-      "Liam Patel",
-      "John Ivanov"
-    ],
-    "industry": "consulting"
+    "beneficial_owners": [],
+    "industry": "retail"
   },
   {
-    "account_id": "ACC-4527",
-    "customer_name": "Pioneer Ventures Ltd",
+    "account_id": "ACC-5333",
+    "customer_name": "Pioneer Industries Ltd",
     "entity_type": "corporate",
-    "country_of_incorporation": "NL",
-    "risk_score": 43,
-    "risk_level": "medium",
-    "onboarding_date": "2024-11-10",
+    "country_of_incorporation": "FR",
+    "risk_score": 38,
+    "risk_level": "low",
+    "onboarding_date": "2025-03-18",
     "last_review_date": "2026-02-02",
     "pep_status": false,
     "sanctions_match": false,
     "document_status": "complete",
     "beneficial_owners": [
-      "Carlos Smith",
-      "Ahmed Patel",
-      "Anna Mueller"
-    ],
-    "industry": "real_estate"
-  },
-  {
-    "account_id": "ACC-6514",
-    "customer_name": "Ahmed Khan",
-    "entity_type": "individual",
-    "country_of_incorporation": "JP",
-    "risk_score": 48,
-    "risk_level": "medium",
-    "onboarding_date": "2025-07-17",
-    "last_review_date": "2026-04-19",
-    "pep_status": true,
-    "sanctions_match": false,
-    "document_status": "complete",
-    "beneficial_owners": [],
-    "industry": "retail"
-  },
-  {
-    "account_id": "ACC-2674",
-    "customer_name": "Liam Novak",
-    "entity_type": "individual",
-    "country_of_incorporation": "JP",
-    "risk_score": 34,
-    "risk_level": "low",
-    "onboarding_date": "2025-07-21",
-    "last_review_date": "2025-11-24",
-    "pep_status": false,
-    "sanctions_match": false,
-    "document_status": "complete",
-    "beneficial_owners": [],
-    "industry": "technology"
-  },
-  {
-    "account_id": "ACC-2519",
-    "customer_name": "Vertex Ventures Ltd",
-    "entity_type": "corporate",
-    "country_of_incorporation": "JP",
-    "risk_score": 53,
-    "risk_level": "medium",
-    "onboarding_date": "2025-06-26",
-    "last_review_date": "2026-04-11",
-    "pep_status": false,
-    "sanctions_match": false,
-    "document_status": "complete",
-    "beneficial_owners": [
-      "John Patel",
-      "Mei Smith"
-    ],
-    "industry": "retail"
-  },
-  {
-    "account_id": "ACC-7224",
-    "customer_name": "Pioneer Ventures Ltd",
-    "entity_type": "corporate",
-    "country_of_incorporation": "FR",
-    "risk_score": 38,
-    "risk_level": "low",
-    "onboarding_date": "2024-05-19",
-    "last_review_date": "2025-11-23",
-    "pep_status": false,
-    "sanctions_match": false,
-    "document_status": "complete",
-    "beneficial_owners": [
+      "Liam Patel",
       "Sofia Rossi",
-      "Sofia Garcia",
-      "Ahmed Khan"
+      "Sofia Garcia"
     ],
     "industry": "consulting"
   },
   {
-    "account_id": "ACC-2584",
-    "customer_name": "Mei Ivanov",
+    "account_id": "ACC-1711",
+    "customer_name": "Raj Garcia",
     "entity_type": "individual",
-    "country_of_incorporation": "FR",
-    "risk_score": 45,
-    "risk_level": "medium",
-    "onboarding_date": "2024-11-12",
-    "last_review_date": "2026-05-07",
+    "country_of_incorporation": "NL",
+    "risk_score": 22,
+    "risk_level": "low",
+    "onboarding_date": "2024-05-05",
+    "last_review_date": "2026-03-26",
     "pep_status": false,
     "sanctions_match": false,
     "document_status": "complete",
     "beneficial_owners": [],
-    "industry": "hospitality"
+    "industry": "consulting"
   },
   {
-    "account_id": "ACC-6881",
-    "customer_name": "Orion Trading Ltd",
+    "account_id": "ACC-8527",
+    "customer_name": "Apex Trading Ltd",
     "entity_type": "corporate",
-    "country_of_incorporation": "FR",
-    "risk_score": 13,
+    "country_of_incorporation": "DE",
+    "risk_score": 39,
     "risk_level": "low",
-    "onboarding_date": "2025-01-09",
-    "last_review_date": "2025-11-30",
+    "onboarding_date": "2025-09-04",
+    "last_review_date": "2026-03-28",
     "pep_status": false,
     "sanctions_match": false,
     "document_status": "complete",
     "beneficial_owners": [
-      "Liam Mueller",
-      "Raj Garcia"
+      "Jane Chen"
     ],
     "industry": "construction"
   },
   {
-    "account_id": "ACC-6635",
-    "customer_name": "Apex Group Ltd",
+    "account_id": "ACC-9785",
+    "customer_name": "Vertex Group Ltd",
     "entity_type": "corporate",
-    "country_of_incorporation": "NL",
-    "risk_score": 29,
+    "country_of_incorporation": "FR",
+    "risk_score": 8,
     "risk_level": "low",
-    "onboarding_date": "2025-01-12",
-    "last_review_date": "2026-01-24",
-    "pep_status": true,
-    "sanctions_match": false,
-    "document_status": "complete",
-    "beneficial_owners": [
-      "Liam Patel",
-      "Raj Novak"
-    ],
-    "industry": "technology"
-  },
-  {
-    "account_id": "ACC-5333",
-    "customer_name": "Apex Ventures Ltd",
-    "entity_type": "corporate",
-    "country_of_incorporation": "GB",
-    "risk_score": 36,
-    "risk_level": "low",
-    "onboarding_date": "2025-02-26",
-    "last_review_date": "2025-12-06",
+    "onboarding_date": "2025-01-03",
+    "last_review_date": "2025-12-28",
     "pep_status": false,
     "sanctions_match": false,
     "document_status": "complete",
     "beneficial_owners": [
+      "Liam Garcia",
+      "John Mueller",
+      "Ahmed Chen"
+    ],
+    "industry": "construction"
+  },
+  {
+    "account_id": "ACC-3045",
+    "customer_name": "Vertex Group Ltd",
+    "entity_type": "corporate",
+    "country_of_incorporation": "JP",
+    "risk_score": 43,
+    "risk_level": "medium",
+    "onboarding_date": "2025-06-26",
+    "last_review_date": "2026-03-18",
+    "pep_status": false,
+    "sanctions_match": false,
+    "document_status": "complete",
+    "beneficial_owners": [
+      "Liam Rossi",
       "Sofia Rossi"
     ],
     "industry": "financial_services"
   },
   {
-    "account_id": "ACC-1711",
+    "account_id": "ACC-7201",
     "customer_name": "John Smith",
     "entity_type": "individual",
     "country_of_incorporation": "AU",
@@ -717,8 +811,8 @@
     "industry": "financial_services"
   },
   {
-    "account_id": "ACC-8527",
-    "customer_name": "Pioneer Partners Ltd",
+    "account_id": "ACC-2291",
+    "customer_name": "Orion Partners Ltd",
     "entity_type": "corporate",
     "country_of_incorporation": "GB",
     "risk_score": 34,
@@ -735,7 +829,7 @@
     "industry": "financial_services"
   },
   {
-    "account_id": "ACC-9785",
+    "account_id": "ACC-5803",
     "customer_name": "Jane Doe",
     "entity_type": "individual",
     "country_of_incorporation": "DE",
@@ -748,107 +842,5 @@
     "document_status": "complete",
     "beneficial_owners": [],
     "industry": "financial_services"
-  },
-  {
-    "account_id": "ACC-3045",
-    "customer_name": "Jane Novak",
-    "entity_type": "individual",
-    "country_of_incorporation": "GB",
-    "risk_score": 35,
-    "risk_level": "low",
-    "onboarding_date": "2025-06-27",
-    "last_review_date": "2026-01-27",
-    "pep_status": false,
-    "sanctions_match": false,
-    "document_status": "complete",
-    "beneficial_owners": [],
-    "industry": "import_export"
-  },
-  {
-    "account_id": "ACC-7201",
-    "customer_name": "Jane Rossi",
-    "entity_type": "individual",
-    "country_of_incorporation": "VG",
-    "risk_score": 67,
-    "risk_level": "medium",
-    "onboarding_date": "2025-03-24",
-    "last_review_date": "2026-04-29",
-    "pep_status": false,
-    "sanctions_match": false,
-    "document_status": "incomplete",
-    "beneficial_owners": [],
-    "industry": "construction"
-  },
-  {
-    "account_id": "ACC-2291",
-    "customer_name": "Summit Holdings Ltd",
-    "entity_type": "corporate",
-    "country_of_incorporation": "JP",
-    "risk_score": 9,
-    "risk_level": "low",
-    "onboarding_date": "2024-02-23",
-    "last_review_date": "2026-03-10",
-    "pep_status": false,
-    "sanctions_match": false,
-    "document_status": "complete",
-    "beneficial_owners": [
-      "Anna Doe"
-    ],
-    "industry": "hospitality"
-  },
-  {
-    "account_id": "ACC-5803",
-    "customer_name": "Pioneer Holdings Ltd",
-    "entity_type": "corporate",
-    "country_of_incorporation": "AU",
-    "risk_score": 9,
-    "risk_level": "low",
-    "onboarding_date": "2024-12-02",
-    "last_review_date": "2026-01-21",
-    "pep_status": false,
-    "sanctions_match": false,
-    "document_status": "incomplete",
-    "beneficial_owners": [
-      "Sofia Rossi",
-      "Liam Rossi",
-      "Raj Ivanov"
-    ],
-    "industry": "retail"
-  },
-  {
-    "account_id": "ACC-6925",
-    "customer_name": "Delta Partners Ltd",
-    "entity_type": "corporate",
-    "country_of_incorporation": "NL",
-    "risk_score": 42,
-    "risk_level": "medium",
-    "onboarding_date": "2025-05-30",
-    "last_review_date": "2026-05-04",
-    "pep_status": false,
-    "sanctions_match": false,
-    "document_status": "complete",
-    "beneficial_owners": [
-      "Anna Novak",
-      "Liam Mueller"
-    ],
-    "industry": "financial_services"
-  },
-  {
-    "account_id": "ACC-4150",
-    "customer_name": "Summit Partners Ltd",
-    "entity_type": "corporate",
-    "country_of_incorporation": "GB",
-    "risk_score": 36,
-    "risk_level": "low",
-    "onboarding_date": "2025-05-17",
-    "last_review_date": "2026-02-28",
-    "pep_status": false,
-    "sanctions_match": false,
-    "document_status": "complete",
-    "beneficial_owners": [
-      "Raj Doe",
-      "Raj Khan"
-    ],
-    "industry": "real_estate"
   }
 ]

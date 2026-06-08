@@ -50,44 +50,64 @@ def risk_flags_for(amount, country, rapid=False):
     return flags
 
 # Accounts and Know Your Customer (KYC) ------------------
-account_ids = ["ACC-8891", "ACC-7702", "ACC-5310"]
+account_ids = ["ACC-8891", "ACC-7702", "ACC-5310", "ACC-3300", "ACC-4400"]
 while len(account_ids) < 50:
     acc_id = f"ACC-{random.randint(1000, 9999)}"
     if acc_id not in account_ids:
         account_ids.append(acc_id)
 
+SPECIAL_KYC = {
+    "ACC-8891": {  # velocity / layering (the hero)
+        "customer_name": "Meridian Capital Group", "entity_type": "corporate",
+        "country_of_incorporation": "Cyprus", "risk_score": 78, "risk_level": "high",
+        "onboarding_date": "2025-08-12", "last_review_date": "2026-01-15",
+        "pep_status": False, "sanctions_match": False, "document_status": "incomplete",
+        "beneficial_owners": ["John Doe", "Jane Smith"], "industry": "financial_services",
+    },
+    "ACC-7702": {  # structuring
+        "customer_name": "Pacific Import Export", "entity_type": "corporate",
+        "country_of_incorporation": "United Arab Emirates", "risk_score": 71, "risk_level": "high",
+        "onboarding_date": "2025-03-04", "last_review_date": "2025-12-01",
+        "pep_status": False, "sanctions_match": False, "document_status": "complete",
+        "beneficial_owners": ["Omar Haddad"], "industry": "import_export",
+    },
+    "ACC-5310": {  # PEP offshore inflows
+        "customer_name": "Riviera Property SC", "entity_type": "corporate",
+        "country_of_incorporation": "Seychelles", "risk_score": 64, "risk_level": "medium",
+        "onboarding_date": "2025-06-20", "last_review_date": "2026-02-10",
+        "pep_status": True, "sanctions_match": False, "document_status": "complete",
+        "beneficial_owners": ["Elena Petrova", "Marco Rossi"], "industry": "real_estate",
+    },
+    "ACC-3300": {  # legitimate velocity (false positive)
+        "customer_name": "Summit Ventures Ltd", "entity_type": "corporate",
+        "country_of_incorporation": "United States", "risk_score": 22, "risk_level": "low",
+        "onboarding_date": "2024-11-05", "last_review_date": "2026-03-01",
+        "pep_status": False, "sanctions_match": False, "document_status": "complete",
+        "beneficial_owners": ["Sarah Lin"], "industry": "technology",
+    },
+    "ACC-4400": {  # sanctions hit
+        "customer_name": "Crimson Trading FZE", "entity_type": "corporate",
+        "country_of_incorporation": "United Arab Emirates", "risk_score": 88, "risk_level": "high",
+        "onboarding_date": "2025-09-30", "last_review_date": "2026-02-20",
+        "pep_status": False, "sanctions_match": True, "document_status": "incomplete",
+        "beneficial_owners": ["Viktor Sokolov"], "industry": "import_export",
+    },
+}
+
 kyc_records = []
 for acc_id in account_ids:
-    if acc_id == "ACC-8891":
-        kyc_records.append({
-            "account_id": "ACC-8891",
-            "customer_name": "Meridian Capital Group",
-            "entity_type": "corporate",
-            "country_of_incorporation": "Cyprus",
-            "risk_score": 78,
-            "risk_level": "high",
-            "onboarding_date": "2025-08-12",
-            "last_review_date": "2026-01-15",
-            "pep_status": False,
-            "sanctions_match": False,
-            "document_status": "incomplete",
-            "beneficial_owners": ["John Doe", "Jane Smith"],
-            "industry": "financial_services",
-        })
+    if acc_id in SPECIAL_KYC:
+        kyc_records.append({"account_id": acc_id, **SPECIAL_KYC[acc_id]})
         continue
 
     is_corp = random.random() < 0.6
     country = random.choices(LOW_RISK_COUNTRIES + HIGH_RISK_COUNTRIES, weights=[6] * len(LOW_RISK_COUNTRIES) + [1] * len(HIGH_RISK_COUNTRIES))[0]
     base = random.randint(45, 70) if country in HIGH_RISK_COUNTRIES else random.randint(5, 55)
-
-    if acc_id in ("ACC-7702", "ACC-5310"):
-        base = random.randint(55, 72)
-    
     risk_score = min(base, 100)
     risk_level = "high" if risk_score >= 70 else "medium" if risk_score >= 40 else "low"
     kyc_records.append({
         "account_id": acc_id,
-        "customer_name": (random.choice(["Apex", "Vertex", "Orion", "Summit", "Delta", "Pioneer", "Crescent", "Atlas"]) + " " + random.choice(["Holdings", "Trading", "Partners", "Ventures", "Group", "Industries"]) + " Ltd") if is_corp else person(),
+        "customer_name": (random.choice(["Apex", "Vertex", "Orion", "Delta", "Pioneer", "Crescent", "Atlas"]) + " " + random.choice(["Holdings", "Trading", "Partners", "Group", "Industries"]) + " Ltd") if is_corp else person(),
         "entity_type": "corporate" if is_corp else "individual",
         "country_of_incorporation": country,
         "risk_score": risk_score,
@@ -145,11 +165,42 @@ burst("ACC-8891", datetime(2026, 5, 15, tzinfo=timezone.utc), start_hour=9, wind
 burst("ACC-8891", datetime(2026, 6, 3, tzinfo=timezone.utc), start_hour=10, window_hours=2, n=12, 
       total=245000.00, counterparty="Aurora Holdings Ltd", country="CY", desc="Advisory retainer")
 
-# Case 2
-burst("ACC-7702", datetime(2026, 6, 2, tzinfo=timezone.utc), start_hour=13, window_hours=4, n=13, 
-      total=96000.00, counterparty="Pacific Import Export", country="AE", desc="Goods purchase")
-burst("ACC-5310", datetime(2026, 6, 4, tzinfo=timezone.utc), start_hour=8, window_hours=5, n=11, 
-      total=54000.00, counterparty="Riviera Property SC", country="SC", desc="Real estate deposit")
+# Pacific Import Export (ACC-7702) - STRUCTURING: many sub-$10k inbound deposits
+for _ in range(18):
+    ts = datetime(2026, 5, 23, tzinfo=timezone.utc) + timedelta(
+        days=random.uniform(0, 12), hours=random.randint(0, 23), minutes=random.randint(0, 59))
+    tx = make_tx("ACC-7702", ts, round(random.uniform(9000, 9900), 2),
+                 "Branch Cash Deposit", "US", direction="inbound",
+                 tx_type="card_payment", desc="Cash deposit")
+    tx["risk_flags"] = ["sub_threshold"]
+    transactions.append(tx)
+
+# Riviera Property SC (ACC-5310) - PEP offshore inflows: large inbound wires
+for _ in range(5):
+    ts = datetime(2026, 5, 10, tzinfo=timezone.utc) + timedelta(
+        days=random.uniform(0, 26), hours=random.randint(0, 23), minutes=random.randint(0, 59))
+    tx = make_tx("ACC-5310", ts, round(random.uniform(45000, 150000), 2),
+                 "Eastgate Nominees Ltd", "PA", direction="inbound", desc="Capital contribution")
+    tx["risk_flags"] = sorted(set(tx["risk_flags"] + ["pep_related"]))
+    transactions.append(tx)
+
+# Summit Ventures Ltd (ACC-3300) - LEGITIMATE velocity (false positive): quarterly supplier run
+for _ in range(14):
+    ts = datetime(2026, 6, 1, tzinfo=timezone.utc) + timedelta(
+        days=random.uniform(0, 3), hours=random.randint(8, 18), minutes=random.randint(0, 59))
+    transactions.append(make_tx("ACC-3300", ts, round(random.uniform(2000, 8000), 2),
+                                random.choice(NORMAL_COUNTERPARTIES), "US", direction="outbound",
+                                tx_type=random.choice(["ach", "wire_transfer"]),
+                                desc="Quarterly supplier settlement"))
+
+# Crimson Trading FZE (ACC-4400) - SANCTIONS hit: outbound wires to a sanctioned party
+for _ in range(3):
+    ts = datetime(2026, 5, 28, tzinfo=timezone.utc) + timedelta(
+        days=random.uniform(0, 8), hours=random.randint(9, 17), minutes=random.randint(0, 59))
+    tx = make_tx("ACC-4400", ts, round(random.uniform(20000, 60000), 2),
+                 "Volga Machinery OOO", "AE", direction="outbound", desc="Equipment purchase")
+    tx["risk_flags"] = sorted(set(tx["risk_flags"] + ["sanctions_hit"]))
+    transactions.append(tx)
 
 # Real Regulations ------------------
 regulations = [
@@ -298,6 +349,23 @@ case_files = [
         "findings": ["Velocity spike explained by quarterly supplier payments",
                      "Supporting invoices on file"],
         "recommended_actions": ["Close alert", "No SAR required"],
+        "related_cases": []
+    },
+    {
+        "case_id": "CASE-2026-0019",
+        "created_at": "2026-05-02T11:10:00Z",
+        "created_by": "vigil-agent",
+        "subject": "Riviera Property SC - PEP-linked offshore inflows",
+        "summary": ("Large inbound transfers to ACC-5310 from offshore nominee accounts. The "
+                    "beneficial owner is a Politically Exposed Person. Enhanced Due Diligence "
+                    "triggered; escalated to senior compliance for source-of-funds review."),
+        "entities_involved": ["ACC-5310", "Riviera Property SC"],
+        "risk_level": "medium", "status": "escalated",
+        "findings": ["Beneficial owner flagged as PEP",
+                     "Large inbound wires from offshore nominee (Eastgate Nominees Ltd)",
+                     "Source of funds not documented"],
+        "recommended_actions": ["Obtain source-of-funds documentation",
+                                "Senior management sign-off"],
         "related_cases": []
     }
 ]
