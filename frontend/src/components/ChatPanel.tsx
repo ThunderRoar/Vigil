@@ -23,6 +23,7 @@ type Msg = {
 };
 
 const PROMPT = "Investigate Meridian Capital Group";
+const SWEEP_PROMPT = "Run today's monitoring sweep — which accounts should I investigate?";
 
 const TOOL_LABELS: Record<string, string> = {
   lookup_kyc: "Looking up KYC profile",
@@ -208,12 +209,20 @@ export function ChatPanel({ onContext, onSaveCase }: {
                 Ask Vigil about an entity, account, or pattern.
               </p>
             </div>
-            <button
-              onClick={() => send(PROMPT)}
-              className="rounded-full border border-border px-3 py-1.5 text-sm text-foreground transition-colors hover:border-primary hover:text-primary"
-            >
-              {PROMPT}
-            </button>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              <button
+                onClick={() => send(SWEEP_PROMPT)}
+                className="rounded-full border border-border px-3 py-1.5 text-sm text-foreground transition-colors hover:border-primary hover:text-primary"
+              >
+                Run today&apos;s monitoring sweep
+              </button>
+              <button
+                onClick={() => send(PROMPT)}
+                className="rounded-full border border-border px-3 py-1.5 text-sm text-foreground transition-colors hover:border-primary hover:text-primary"
+              >
+                {PROMPT}
+              </button>
+            </div>
           </div>
         )}
 
