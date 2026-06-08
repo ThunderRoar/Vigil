@@ -1,10 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Send, Loader2, Check, Sparkles, Save } from "lucide-react";
+import { Send, Loader2, Check, Sparkles, Save, Plus } from "lucide-react";
 import type { InvestigationContext } from "@/components/ContextPanel";
 import type { CaseFile } from "@/lib/types";
 import { Markdown } from "@/components/Markdown";
+
+const SESSION_KEY = "vigil-session";
+const MESSAGES_KEY = "vigil-messages";
 
 type ToolCall = { label: string; done: boolean };
 type Msg = {
@@ -16,6 +19,7 @@ type Msg = {
   saved?: boolean;
   saving?: boolean;
   saveError?: boolean;
+  caseFile?: CaseFile;
 };
 
 const PROMPT = "Investigate Meridian Capital Group";
@@ -31,53 +35,64 @@ const TOOL_LABELS: Record<string, string> = {
 
 const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-function buildCaseFile(): CaseFile {
-  return {
-    case_id: `CASE-2026-${String(Date.now()).slice(-4)}`,
-    created_at: new Date().toISOString(),
-    created_by: "vigil-agent",
-    subject: "Meridian Capital Group - Unusual transaction velocity",
-    summary:
-      "26 wires totaling $532,500 in two bursts (May 15, Jun 3) to Aurora Holdings Ltd (Cyprus). KYC incomplete, risk 78/100. Likely meets BSA threshold for SAR.",
-    entities_involved: ["ACC-8891", "Meridian Capital Group", "Aurora Holdings Ltd"],
-    risk_level: "critical",
-    status: "open",
-    findings: [
-      "26 wires in two tight bursts (velocity anomaly)",
-      "Cross-border transfers to high-risk jurisdiction (Cyprus)",
-      "KYC documentation incomplete",
-      "Total exceeds SAR threshold"
-    ],
-    recommended_actions: [
-      "File SAR with FinCEN",
-      "Request updated KYC documents",
-      "Enhanced monitoring on ACC-8891"
-    ],
-    related_cases: []
-  };
-}
-
-export function ChatPanel({ onContext, onResetContext, onSaveCase }: {
+export function ChatPanel({ onContext, onSaveCase }: {
   onContext: (patch: InvestigationContext) => void;
-  onResetContext: () => void;
   onSaveCase: (c: CaseFile) => void;
 }) {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
-  const [sessionId] = useState(() => crypto.randomUUID()); // one ADK session per page load
+  const [sessionId, setSessionId] = useState("");
+  const [hydrated, setHydrated] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
+
+  // restore session id + chat thread from sessionStorage on mount (client-only)
+  useEffect(() => {
+    let id = sessionStorage.getItem(SESSION_KEY);
+    if (!id) {
+      id = crypto.randomUUID();
+      sessionStorage.setItem(SESSION_KEY, id);
+    }
+    setSessionId(id);
+    try {
+      const saved = sessionStorage.getItem(MESSAGES_KEY);
+      if (saved) setMessages(JSON.parse(saved));
+    } catch {
+      /* ignore malformed cache */
+    }
+    setHydrated(true);
+  }, []);
+
+  // persist the chat thread
+  useEffect(() => {
+    if (hydrated) sessionStorage.setItem(MESSAGES_KEY, JSON.stringify(messages));
+  }, [messages, hydrated]);
 
   // auto scroll
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  function newConversation() {
+    const id = crypto.randomUUID();
+    sessionStorage.setItem(SESSION_KEY, id);
+    sessionStorage.removeItem(MESSAGES_KEY);
+    setSessionId(id);
+    setMessages([]);
+  }
+
   async function send(text: string) {
     if (!text.trim() || busy) return;
     setBusy(true);
     setInput("");
-    onResetContext();
+
+    // ensure a session id even if the hydration effect hasn't run yet
+    let sid = sessionId;
+    if (!sid) {
+      sid = crypto.randomUUID();
+      sessionStorage.setItem(SESSION_KEY, sid);
+      setSessionId(sid);
+    }
 
     const agentId = crypto.randomUUID();
     setMessages((m) => [
@@ -90,20 +105,19 @@ export function ChatPanel({ onContext, onResetContext, onSaveCase }: {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text, sessionId })
+        body: JSON.stringify({ message: text, sessionId: sid })
       });
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error(data.error || "Agent request failed");
 
-      const { toolCalls, answer, context } = data as {
+      const { toolCalls, answer, context, caseFile } = data as {
         toolCalls: { name: string }[];
         answer: string;
         context: InvestigationContext;
+        caseFile: CaseFile | null;
       };
 
-      // clear the placeholder, then reveal the real tool calls one by one
       setMessages((m) => m.map((msg) => (msg.id === agentId ? { ...msg, tools: [] } : msg)));
-
       for (const tc of toolCalls) {
         const label = TOOL_LABELS[tc.name] ?? tc.name;
         setMessages((m) =>
@@ -126,7 +140,6 @@ export function ChatPanel({ onContext, onResetContext, onSaveCase }: {
               : msg
           )
         );
-        // surface the matching evidence (real tool output) in the Context panel
         if (tc.name === "lookup_kyc" && context.kyc) onContext({ kyc: context.kyc });
         else if (tc.name === "search_transactions" && context.transactions)
           onContext({ transactions: context.transactions });
@@ -137,17 +150,15 @@ export function ChatPanel({ onContext, onResetContext, onSaveCase }: {
       // safety net to capture all data
       onContext(context);
       await delay(250);
-      const investigativeTools = [
-        "lookup_kyc",
-        "search_transactions",
-        "transaction_velocity_check",
-        "high_risk_accounts",
-      ];
-      const offerSave = toolCalls.some((tc) => investigativeTools.includes(tc.name));
       setMessages((m) =>
         m.map((msg) =>
           msg.id === agentId
-            ? { ...msg, content: answer || "(no answer returned)", offerSave }
+            ? {
+                ...msg,
+                content: answer || "(no answer returned)",
+                offerSave: !!caseFile,
+                caseFile: caseFile ?? undefined
+              }
             : msg
         )
       );
@@ -171,6 +182,19 @@ export function ChatPanel({ onContext, onResetContext, onSaveCase }: {
 
   return (
     <div className="flex h-full flex-col">
+      {/* new conversation bar (only once a chat has started) */}
+      {messages.length > 0 && (
+        <div className="flex shrink-0 justify-end border-b border-border px-3 py-1.5">
+          <button
+            onClick={newConversation}
+            disabled={busy}
+            className="inline-flex items-center gap-1 text-xs text-muted transition-colors hover:text-foreground disabled:opacity-50"
+          >
+            <Plus className="h-3.5 w-3.5" /> New conversation
+          </button>
+        </div>
+      )}
+
       {/* message thread */}
       <div className="flex-1 space-y-4 overflow-y-auto p-4">
         {messages.length === 0 && (
@@ -227,7 +251,8 @@ export function ChatPanel({ onContext, onResetContext, onSaveCase }: {
                 {msg.offerSave && (
                   <button
                     onClick={async () => {
-                      const c = buildCaseFile();
+                      const c = msg.caseFile;
+                      if (!c) return;
                       setMessages((m) =>
                         m.map((x) =>
                           x.id === msg.id ? { ...x, saving: true, saveError: false } : x

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { InvestigationContext } from "@/components/ContextPanel";
+import type { CaseFile } from "@/lib/types";
 
 // POST /api/chat - bridge the dashboard to the deployed ADK agent on Cloud Run.
 // Server side: ensures an ADK session, runs the agent, and parses the event stream.
@@ -127,5 +128,50 @@ export async function POST(req: Request) {
     }
   }
 
-  return NextResponse.json({ ok: true, toolCalls, answer, context });
+  let caseFile: CaseFile | null = null;
+  const block = answer.match(/```vigil-case\s*([\s\S]*?)```/);
+  if (block) {
+    try {
+      const draft = JSON.parse(block[1].trim());
+      const kyc = context.kyc as
+        | { account_id?: string; customer_name?: string; risk_score?: number; sanctions_match?: boolean }
+        | undefined;
+      const account = kyc?.account_id ?? "UNKNOWN";
+      const entity = kyc?.customer_name ?? draft.subject ?? "Unknown entity";
+      const score = typeof kyc?.risk_score === "number" ? kyc.risk_score : 0;
+      const risk =
+        kyc?.sanctions_match || score >= 75
+          ? "critical"
+          : score >= 70
+            ? "high"
+            : score >= 40
+              ? "medium"
+              : "low";
+      const status = ["open", "escalated", "resolved"].includes(draft.status) ? draft.status : "open";
+      caseFile = {
+        case_id: `CASE-${account}`,
+        created_at: new Date().toISOString(),
+        created_by: "vigil-agent",
+        subject: draft.subject || `${entity} - investigation`,
+        summary: draft.summary || "",
+        entities_involved: Array.from(
+          new Set(
+            [account, entity, ...(Array.isArray(draft.entities_involved) ? draft.entities_involved : [])].filter(
+              Boolean
+            )
+          )
+        ),
+        risk_level: risk,
+        status,
+        findings: Array.isArray(draft.findings) ? draft.findings : [],
+        recommended_actions: Array.isArray(draft.recommended_actions) ? draft.recommended_actions : [],
+        related_cases: []
+      } as CaseFile;
+    } catch {
+      /* malformed block -> no caseFile */
+    }
+    answer = answer.replace(/```vigil-case[\s\S]*?```/g, "").trim();
+  }
+
+  return NextResponse.json({ ok: true, toolCalls, answer, context, caseFile });
 }

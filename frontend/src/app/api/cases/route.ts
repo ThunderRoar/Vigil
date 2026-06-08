@@ -1,4 +1,35 @@
 import { NextResponse } from "next/server";
+import type { CaseFile } from "@/lib/types";
+
+// GET /api/cases - live-read the case_files index (the agent's memory) for the list.
+export async function GET() {
+  const url = process.env.ELASTIC_URL;
+  const apiKey = process.env.ELASTIC_API_KEY;
+  if (!url || !apiKey) {
+    return NextResponse.json({ ok: false, error: "Elastic credentials missing." }, { status: 500 });
+  }
+
+  const esRes = await fetch(`${url}/case_files/_search`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `ApiKey ${apiKey}` },
+    body: JSON.stringify({
+      size: 50,
+      sort: [{ created_at: "desc" }],
+      query: { match_all: {} },
+    }),
+  });
+
+  if (!esRes.ok) {
+    return NextResponse.json({ ok: false, error: await esRes.text() }, { status: esRes.status });
+  }
+
+  const data = (await esRes.json()) as { hits?: { hits?: { _source?: CaseFile }[] } };
+  const cases = (data.hits?.hits ?? [])
+    .map((h) => h._source)
+    .filter((c): c is CaseFile => Boolean(c));
+
+  return NextResponse.json({ ok: true, cases });
+}
 
 // POST /api/cases - write-back: index a case file into Elasticsearch case_files.
 export async function POST(req: Request) {

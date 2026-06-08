@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Header } from "@/components/Header";
 import { CaseList } from "@/components/CaseList";
 import { ChatPanel } from "@/components/ChatPanel";
 import { ContextPanel, type InvestigationContext } from "@/components/ContextPanel";
-import { mockCaseFiles } from "@/lib/mockData";
 import type { CaseFile } from "@/lib/types";
 
 function Panel({ title, className, children }: {
@@ -24,15 +23,30 @@ function Panel({ title, className, children }: {
 }
 
 export function Dashboard() {
-  const [cases, setCases] = useState<CaseFile[]>(mockCaseFiles);
-  const [selectedId, setSelectedId] = useState<string | null>(
-    mockCaseFiles[0]?.case_id ?? null
-  );
+  const [cases, setCases] = useState<CaseFile[]>([]);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [context, setContext] = useState<InvestigationContext>({});
   const [highlightId, setHighlightId] = useState<string | null>(null);
-  
+
+  // Live read the case list from Elasticsearch (the agent's memory) on mount.
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/cases")
+      .then((r) => r.json())
+      .then((d) => {
+        if (alive && d.ok && Array.isArray(d.cases)) {
+          setCases(d.cases);
+          setSelectedId((cur) => cur ?? d.cases[0]?.case_id ?? null);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
+
   function addCase(c: CaseFile) {
-    setCases((prev) => [c, ...prev]);
+    setCases((prev) => [c, ...prev.filter((p) => p.case_id !== c.case_id)]);
     setSelectedId(c.case_id);
     setHighlightId(c.case_id);
     setTimeout(() => setHighlightId(null), 2000);
@@ -43,7 +57,7 @@ export function Dashboard() {
       <Header />
 
       <div className="flex min-h-0 flex-1">
-        <Panel title="Investigations" className="w-70 shrink-0 border-r border-border-surface">
+        <Panel title="Investigations" className="w-70 shrink-0 border-r border-border bg-surface">
           <CaseList
             cases={cases}
             selectedId={selectedId}
@@ -58,7 +72,6 @@ export function Dashboard() {
         <Panel title="Investigation Chat" className="min-w-0 flex-1">
           <ChatPanel
             onContext={(patch) => setContext((c) => ({ ...c, ...patch }))}
-            onResetContext={() => setContext({})}
             onSaveCase={addCase}
           />
         </Panel>
