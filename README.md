@@ -2,8 +2,8 @@
 
 > An AI agent that investigates suspicious financial activity, checks regulations, and **builds institutional memory** - Gemini reasoning over Elastic search.
 
-**Live App:** https://vigil-web-873470220125.us-central1.run.app
-**Demo video:** https://www.youtube.com/watch?v=T65IWtzN828
+**Live App:** https://vigil-web-873470220125.us-central1.run.app \
+**Demo video:** https://www.youtube.com/watch?v=T65IWtzN828 \
 **Built for:** Google Cloud Rapid Agent Hackathon - **Elastic track**
 
 ## What it is
